@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../core/core.dart';
+import '../../home/controllers/home_controller.dart';
 import '../../home/widgets/profile_header.dart';
 
 class ProfileRestoPage extends StatelessWidget {
-  const ProfileRestoPage({super.key});
+  ProfileRestoPage({super.key});
+  final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +50,9 @@ class ProfileRestoPage extends StatelessWidget {
                     leading: Assets.icons.logoutCircle.svg(),
                     title: const Text('Log out'),
                     trailing: const Icon(Icons.chevron_right),
-                    onTap: () {},
+                    onTap: () {
+                      homeController.logout();
+                    },
                   ),
                   ListTile(
                     leading: Assets.icons.helpAndSupportCircle.svg(),

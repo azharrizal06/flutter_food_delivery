@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import '../../../components/buttons.dart';
 import '../../../components/custom_text_field.dart';
 import '../../../components/spaces.dart';
-import '../../../data/appColors.dart';
+import '../../../help/appColors.dart';
 import '../controllers/daftar_controller.dart';
 
 class DaftarView extends GetView<DaftarController> {
@@ -119,7 +119,7 @@ class DaftarView extends GetView<DaftarController> {
                             phoneController.text,
                             passwordController.text);
                       },
-                      label: 'Sign Up', 
+                      label: 'Sign Up',
                     ),
                     const SpaceHeight(16.0),
                     Center(

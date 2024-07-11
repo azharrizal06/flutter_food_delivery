@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/appColors.dart';
+import '../help/appColors.dart';
 
 class DottedDivider extends StatelessWidget {
   final double height;

@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../DataRespon/Respon_login.dart';
 import '../../../data/LocalData.dart';
+import '../../../help/Api.dart';
 import '../../../routes/app_pages.dart';
 
 class HomeController extends GetxController {
@@ -10,7 +11,7 @@ class HomeController extends GetxController {
   Future<ResponDataLogin?> getData() async {
     var data = await LocalData().getAuthData();
     // print(DataUser?.data?.user?.name);
-    DataUser.value = data;
+    DataUser.value = data!;
     // return DataUser;
   }
 
@@ -21,7 +22,7 @@ class HomeController extends GetxController {
     };
 
     var response = await http.post(
-      Uri.parse('http://192.168.200.235:8000/api/logout'),
+      Uri.parse('$urlApi/api/logout'),
       headers: prameter,
     );
 

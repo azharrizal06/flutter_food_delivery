@@ -17,9 +17,9 @@ class _MainPageRestoState extends State<MainPageResto> {
   int _selectedIndex = 0;
   final _widgets = [
     const HomeRestoPage(),
-    const MenuPage(),
+    MenuPage(),
     const OrderPage(),
-    const ProfileRestoPage(),
+    ProfileRestoPage(),
   ];
 
   @override

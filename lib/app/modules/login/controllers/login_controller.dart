@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../DataRespon/Respon_login.dart';
 import '../../../data/LocalData.dart';
+import '../../../help/Api.dart';
 import '../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
@@ -20,18 +21,24 @@ class LoginController extends GetxController {
       "email": email,
       "password": Password,
     };
-    var response = await http.post(
-        Uri.parse('http://192.168.200.235:8000/api/login'),
-        headers: headers,
-        body: requires);
+    var response = await http.post(Uri.parse('$urlApi/api/login'),
+        headers: headers, body: requires);
     var res = jsonDecode(response.body);
-    print(res['status']);
+    print(res['data']['user']['roles']);
 
     //setatus code 200
     if (res['status'] == "success") {
       isLoading.value = false;
-      await LocalData().savedata(ResponDataLogin.fromMap(res));
-      Get.toNamed(Routes.HOME);
+
+      if (res['data']['user']['roles'] == 'user') {
+        await LocalData().savedata(ResponDataLogin.fromMap(res));
+        print("home user");
+        Get.toNamed(Routes.HOME);
+      } else {
+        await LocalData().savedata(ResponDataLogin.fromMap(res));
+        print("home resto");
+        Get.toNamed(Routes.RESTO);
+      }
     } else if (res['status'] == "failed") {
       isLoading.value = false;
       Get.showSnackbar(GetSnackBar(

@@ -1,14 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../core/core.dart';
+import '../controllers/resto_controller.dart';
 import '../models/menu_model.dart';
 import 'form_menu_bottom_sheet.dart';
 
 class MenuCard extends StatelessWidget {
   final MenuModel item;
-  const MenuCard({super.key, required this.item});
+  final int id;
+  MenuCard({super.key, required this.item, required this.id});
 
+  final resto_controller = Get.put(RestoController());
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -111,7 +115,11 @@ class MenuCard extends StatelessWidget {
                                     const SpaceWidth(40.0),
                                     Flexible(
                                       child: Button.filled(
-                                        onPressed: () {
+                                        onPressed: () async {
+                                          print(id);
+                                          await resto_controller
+                                              .deleteProduk(id);
+                                          resto_controller.getproduk();
                                           context.pop();
                                           context.showDialogSuccess(
                                               'Sukses Hapus Menu',

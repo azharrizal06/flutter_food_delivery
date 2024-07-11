@@ -4,7 +4,7 @@ import 'package:food_delivery/app/modules/home/views/home_page.dart';
 import 'package:get/get.dart';
 
 import '../../../core/assets/assets.gen.dart';
-import '../../../data/appColors.dart';
+import '../../../help/appColors.dart';
 import '../controllers/home_controller.dart';
 import 'order_page.dart';
 import 'profile_page.dart';

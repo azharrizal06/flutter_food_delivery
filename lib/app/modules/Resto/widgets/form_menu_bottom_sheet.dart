@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../core/core.dart';
+import '../controllers/resto_controller.dart';
 import '../models/menu_model.dart';
-
 
 class FormMenuBottomSheet extends StatefulWidget {
   final MenuModel? item;
@@ -16,7 +18,12 @@ class _FormMenuBottomSheetState extends State<FormMenuBottomSheet> {
   late final TextEditingController nameController;
   late final TextEditingController priceController;
   late final TextEditingController stockController;
-  late final TextEditingController imageController;
+  TextEditingController descriptionController = TextEditingController();
+
+  XFile? image;
+  bool is_available = false;
+  bool is_favorite = false;
+  final resto_controller = Get.put(RestoController());
 
   @override
   void initState() {
@@ -25,7 +32,7 @@ class _FormMenuBottomSheetState extends State<FormMenuBottomSheet> {
         TextEditingController(text: '${widget.item?.price ?? ''}');
     stockController =
         TextEditingController(text: '${widget.item?.stock ?? ''}');
-    imageController = TextEditingController(text: widget.item?.imageUrl);
+
     super.initState();
   }
 
@@ -39,13 +46,19 @@ class _FormMenuBottomSheetState extends State<FormMenuBottomSheet> {
         children: [
           CustomTextField(
             controller: nameController,
-            label: 'Nama Menu',
+            label: 'Nama produk',
+            textInputAction: TextInputAction.next,
+          ),
+          const SpaceHeight(18.0),
+          CustomTextField(
+            controller: descriptionController,
+            label: 'description produk',
             textInputAction: TextInputAction.next,
           ),
           const SpaceHeight(18.0),
           CustomTextField(
             controller: priceController,
-            label: 'Harga ',
+            label: 'Harga produk',
             keyboardType: TextInputType.number,
             textInputAction: TextInputAction.next,
           ),
@@ -58,30 +71,56 @@ class _FormMenuBottomSheetState extends State<FormMenuBottomSheet> {
           ),
           const SpaceHeight(18.0),
           CustomImagePicker(
-            label: 'Foto Menu',
+            label: 'Foto Produk',
             imageUrl: widget.item?.imageUrl,
             onChanged: (imagePath) {
-              imageController.text = imagePath ?? '';
+              image = imagePath;
             },
           ),
           const SpaceHeight(35.0),
+          Row(
+            children: [
+              Checkbox(
+                  activeColor: AppColors.primary,
+                  value: is_available,
+                  onChanged: (value) {
+                    setState(() {
+                      is_available = value!;
+                    });
+                  }),
+              const Text('Tersedia'),
+              const SpaceWidth(20.0),
+              Checkbox(
+                  activeColor: AppColors.primary,
+                  value: is_favorite,
+                  onChanged: (value) {
+                    setState(() {
+                      is_favorite = value!;
+                    });
+                  }),
+              const Text('Favorit'),
+            ],
+          ),
+          const SpaceHeight(35.0),
           Button.filled(
-            onPressed: () {
+            onPressed: () async {
               if (nameController.text.isEmpty ||
                   priceController.text.isEmpty ||
                   stockController.text.isEmpty ||
-                  imageController.text.isEmpty) {
+                  descriptionController.text.isEmpty ||
+                  image == null) {
                 context.showDialogError(
                     'Failed', 'Terdapat inputan yang masih kosong');
               } else {
-                context.pop();
-                if (widget.item != null) {
-                  context.showDialogSuccess('Sukses Edit Menu',
-                      'Menu kamu dapat di lihat di daftar menu, dan akan ditampilkan di halaman menu pembeli');
-                } else {
-                  context.showDialogSuccess('Sukses Tambah Menu',
-                      'Menu kamu dapat di lihat di daftar menu, dan akan ditampilkan di halaman menu pembeli');
-                }
+                await resto_controller.addproduk(
+                    nameController.text,
+                    descriptionController.text,
+                    priceController.text,
+                    stockController.text,
+                    is_available ? true : false,
+                    is_favorite ? true : false,
+                    image!);
+                resto_controller.getproduk();
               }
             },
             label: 'Simpan',

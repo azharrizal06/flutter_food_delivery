@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:food_delivery/app/help/Api.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,9 +16,8 @@ class DaftarController extends GetxController {
       "password": password,
     };
 
-    var response = await http.post(
-        Uri.parse('http://192.168.200.205:8000/api/user/register'),
-        body: request);
+    var response =
+        await http.post(Uri.parse('$urlApi/api/user/register'), body: request);
     var res = jsonDecode(response.body);
     if (res['status'] != "error") {
       Get.toNamed(Routes.LOGIN);

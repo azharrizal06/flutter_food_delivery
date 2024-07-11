@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
 import '../assets/assets.dart';
 import '../constants/colors.dart';
 import 'buttons.dart';
@@ -10,7 +11,7 @@ import 'spaces.dart';
 
 class CustomImagePicker extends StatefulWidget {
   final String label;
-  final void Function(String? imagePath) onChanged;
+  final void Function(XFile? imagePath) onChanged;
   final String? imageUrl;
   final bool showLabel;
   final double borderRadius;
@@ -37,7 +38,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
 
     setState(() {
       _image = image;
-      widget.onChanged(image?.path);
+      widget.onChanged(image);
     });
   }
 

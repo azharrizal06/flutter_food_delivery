@@ -10,8 +10,6 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
-import '../modules/splas/bindings/splas_binding.dart';
-import '../modules/splas/views/splas_view.dart';
 
 part 'app_routes.dart';
 
@@ -30,11 +28,6 @@ class AppPages {
       name: _Paths.LOGIN,
       page: () => LoginView(),
       binding: LoginBinding(),
-    ),
-    GetPage(
-      name: _Paths.SPLAS,
-      page: () => SplasView(),
-      binding: SplasBinding(),
     ),
     GetPage(
       name: _Paths.DRIVER,

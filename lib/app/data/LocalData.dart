@@ -8,11 +8,14 @@ class LocalData {
     await pref.setString("auth_data", responDataLogin.toJson());
   }
 
-  Future<ResponDataLogin> getAuthData() async {
+  Future<ResponDataLogin?> getAuthData() async {
     final pref = await SharedPreferences.getInstance();
     var data = await pref.getString("auth_data");
     print(data);
-    return ResponDataLogin.fromJson(data!);
+    if (data == null) {
+      return null;
+    }
+    return ResponDataLogin.fromJson(data);
   }
 
   Future<void> removeAuthData() async {

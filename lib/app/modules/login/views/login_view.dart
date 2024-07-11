@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery/app/modules/Resto/views/registerResto.dart';
 import 'package:food_delivery/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
@@ -7,7 +8,7 @@ import '../../../components/buttons.dart';
 import '../../../components/custom_text_field.dart';
 import '../../../components/spaces.dart';
 import '../../../core/assets/assets.gen.dart';
-import '../../../data/appColors.dart';
+import '../../../help/appColors.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -98,7 +99,7 @@ class LoginView extends GetView<LoginController> {
                         const SpaceHeight(16.0),
                         Button.filled(
                           onPressed: () {
-                            Get.toNamed(Routes.RESTO);
+                            Get.to(RegisterResto());
                           },
                           label: 'Sign In as Resto',
                         ),

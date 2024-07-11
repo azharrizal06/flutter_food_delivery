@@ -13,9 +13,9 @@ class RestoView extends GetView<RestoController> {
   RxInt _selectedIndex = 0.obs;
   final _widgets = [
     const HomeRestoPage(),
-    const MenuPage(),
+    MenuPage(),
     const OrderPage(),
-    const ProfileRestoPage(),
+    ProfileRestoPage(),
   ];
   @override
   Widget build(BuildContext context) {

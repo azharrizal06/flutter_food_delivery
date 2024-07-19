@@ -93,7 +93,7 @@ class OrderDetailPage extends StatelessWidget {
                 ),
               ),
               Text(
-                'Saiful Bahri',
+                'Azhar',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                 ),

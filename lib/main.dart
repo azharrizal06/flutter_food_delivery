@@ -16,7 +16,7 @@ void main() async {
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Application",
-      initialRoute: AuthData == false
+      initialRoute: AuthData == false || userAuth == null
           ? Routes.LOGIN
           : userAuth == "user"
               ? Routes.HOME

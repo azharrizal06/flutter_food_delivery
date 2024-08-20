@@ -1,10 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery/app/help/Api.dart';
 
 import '../../../core/core.dart';
+import '../models/resto_model.dart';
 
 class RestoHeader extends StatelessWidget {
-  const RestoHeader({super.key});
+  const RestoHeader({super.key, required this.item});
+
+  final RestoModel item;
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +47,7 @@ class RestoHeader extends StatelessWidget {
                 children: [
                   ClipOval(
                     child: CachedNetworkImage(
-                      imageUrl:
-                          'https://cdn.pixabay.com/photo/2016/11/18/14/05/brick-wall-1834784_1280.jpg',
+                      imageUrl: '$urlApi/images/${item.imageUrl}',
                       fit: BoxFit.cover,
                       width: 56.0,
                       height: 56.0,
@@ -56,8 +59,8 @@ class RestoHeader extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'CWB Resto',
+                      Text(
+                        item.restoName,
                         style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
@@ -68,8 +71,8 @@ class RestoHeader extends StatelessWidget {
                         children: [
                           Assets.icons.location.svg(),
                           const SpaceWidth(8.0),
-                          const Text(
-                            'Yogyakarta',
+                          Text(
+                            item.address,
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: AppColors.gray2,
@@ -86,7 +89,7 @@ class RestoHeader extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
                   children: [
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(

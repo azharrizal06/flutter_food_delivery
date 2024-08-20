@@ -48,7 +48,7 @@ class OrderDeliveryAddress extends StatelessWidget {
                 ),
               ),
               const SpaceWidth(8.0),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(

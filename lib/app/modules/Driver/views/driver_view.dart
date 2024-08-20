@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../components/spaces.dart';
-import '../../home/widgets/resto_header.dart';
 import '../controllers/driver_controller.dart';
 import '../widgets/shipping_list.dart';
 
@@ -17,7 +16,7 @@ class DriverView extends GetView<DriverController> {
         ),
         body: ListView(
           children: [
-            RestoHeader(),
+            // RestoHeader(),
             SpaceHeight(50.0),
             ShippingList(),
             SpaceHeight(30.0),

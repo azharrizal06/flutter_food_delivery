@@ -96,7 +96,7 @@ class _TakeDeliveryPageState extends State<TakeDeliveryPage> {
                           const SpaceWidth(12.0),
                           SizedBox(
                             width: context.deviceWidth - 280,
-                            child: const Column(
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
@@ -128,7 +128,7 @@ class _TakeDeliveryPageState extends State<TakeDeliveryPage> {
                         children: [
                           Assets.icons.distanceCircle.svg(),
                           const SpaceWidth(12.0),
-                          const Column(
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
@@ -169,7 +169,7 @@ class _TakeDeliveryPageState extends State<TakeDeliveryPage> {
                       ),
                     ),
                     const SpaceWidth(15.0),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(

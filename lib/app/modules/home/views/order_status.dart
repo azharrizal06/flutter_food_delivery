@@ -66,7 +66,7 @@ class _OrderStatusState extends State<OrderStatus> {
           context: context,
           isScrollControlled: true,
           useSafeArea: true,
-          showDragHandle: true,
+          // showDragHandle: true,
           backgroundColor: AppColors.white,
           builder: (context) => const OrderStatusBottomSheet(),
         ),
@@ -201,7 +201,7 @@ class OrderStatusBottomSheet extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(

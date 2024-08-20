@@ -1,64 +1,71 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery/app/help/Api.dart';
+import 'package:food_delivery/app/modules/home/controllers/home_controller.dart';
+import 'package:food_delivery/app/modules/home/models/resto_model.dart';
+import 'package:food_delivery/app/modules/home/models/restoproduk.dart';
+import 'package:get/get.dart';
 
 import '../../../core/core.dart';
-import '../models/product_model.dart';
+import '../views/order_page.dart';
 
 class ChooseMenu extends StatelessWidget {
-  const ChooseMenu({super.key});
+  final RestoModel item;
+  ChooseMenu({super.key, required this.item});
+  final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
-    final products = [
-      ProductModel(
-        imageUrl:
-            'https://cdn.pixabay.com/photo/2019/11/21/18/28/gopchang-4643143_640.jpg',
-        name: 'Ayam Bakar',
-        description: 'Ayam yang dibumbui dengan campuran rempah khas',
-        price: 32000,
-        createdAt: DateTime.now().subtract(const Duration(seconds: 13)),
-      ),
-      ProductModel(
-        imageUrl:
-            'https://cdn.idntimes.com/content-images/community/2022/05/img-20220505-090628-6d2cbb4bbec2340f770674be006d2944-242a598410a0b5610ba0c2d3bc499931.jpg',
-        name: 'Pecel Ayam',
-        description: 'Ayam yang dibumbui dengan campuran rempah khas',
-        price: 25000,
-        createdAt: DateTime.now().subtract(const Duration(seconds: 13)),
-      ),
-      ProductModel(
-        imageUrl:
-            'https://cdn.idntimes.com/content-images/community/2022/05/img-20220505-090628-6d2cbb4bbec2340f770674be006d2944-242a598410a0b5610ba0c2d3bc499931.jpg',
-        name: 'Sate Kelinci',
-        description: 'Sate kelinci muda dengan olahran rempah Nusantara',
-        price: 35000,
-        createdAt: DateTime.now().subtract(const Duration(seconds: 13)),
-      ),
-      ProductModel(
-        imageUrl:
-            'https://cdn.pixabay.com/photo/2019/11/21/18/28/gopchang-4643143_640.jpg',
-        name: 'Ayam Bakar',
-        description: 'Ayam yang dibumbui dengan campuran rempah khas',
-        price: 32000,
-        createdAt: DateTime.now().subtract(const Duration(seconds: 13)),
-      ),
-      ProductModel(
-        imageUrl:
-            'https://cdn.idntimes.com/content-images/community/2022/05/img-20220505-090628-6d2cbb4bbec2340f770674be006d2944-242a598410a0b5610ba0c2d3bc499931.jpg',
-        name: 'Pecel Ayam',
-        description: 'Ayam yang dibumbui dengan campuran rempah khas',
-        price: 25000,
-        createdAt: DateTime.now().subtract(const Duration(seconds: 13)),
-      ),
-      ProductModel(
-        imageUrl:
-            'https://cdn.idntimes.com/content-images/community/2022/05/img-20220505-090628-6d2cbb4bbec2340f770674be006d2944-242a598410a0b5610ba0c2d3bc499931.jpg',
-        name: 'Sate Kelinci',
-        description: 'Sate kelinci muda dengan olahran rempah Nusantara',
-        price: 35000,
-        createdAt: DateTime.now().subtract(const Duration(seconds: 13)),
-      ),
-    ];
+    // final products = [
+    //   ProductModel(
+    //     imageUrl:
+    //         'https://cdn.pixabay.com/photo/2019/11/21/18/28/gopchang-4643143_640.jpg',
+    //     name: 'Ayam Bakar',
+    //     description: 'Ayam yang dibumbui dengan campuran rempah khas',
+    //     price: 32000,
+    //     createdAt: DateTime.now().subtract(const Duration(seconds: 13)),
+    //   ),
+    //   ProductModel(
+    //     imageUrl:
+    //         'https://cdn.idntimes.com/content-images/community/2022/05/img-20220505-090628-6d2cbb4bbec2340f770674be006d2944-242a598410a0b5610ba0c2d3bc499931.jpg',
+    //     name: 'Pecel Ayam',
+    //     description: 'Ayam yang dibumbui dengan campuran rempah khas',
+    //     price: 25000,
+    //     createdAt: DateTime.now().subtract(const Duration(seconds: 13)),
+    //   ),
+    //   ProductModel(
+    //     imageUrl:
+    //         'https://cdn.idntimes.com/content-images/community/2022/05/img-20220505-090628-6d2cbb4bbec2340f770674be006d2944-242a598410a0b5610ba0c2d3bc499931.jpg',
+    //     name: 'Sate Kelinci',
+    //     description: 'Sate kelinci muda dengan olahran rempah Nusantara',
+    //     price: 35000,
+    //     createdAt: DateTime.now().subtract(const Duration(seconds: 13)),
+    //   ),
+    //   ProductModel(
+    //     imageUrl:
+    //         'https://cdn.pixabay.com/photo/2019/11/21/18/28/gopchang-4643143_640.jpg',
+    //     name: 'Ayam Bakar',
+    //     description: 'Ayam yang dibumbui dengan campuran rempah khas',
+    //     price: 32000,
+    //     createdAt: DateTime.now().subtract(const Duration(seconds: 13)),
+    //   ),
+    //   ProductModel(
+    //     imageUrl:
+    //         'https://cdn.idntimes.com/content-images/community/2022/05/img-20220505-090628-6d2cbb4bbec2340f770674be006d2944-242a598410a0b5610ba0c2d3bc499931.jpg',
+    //     name: 'Pecel Ayam',
+    //     description: 'Ayam yang dibumbui dengan campuran rempah khas',
+    //     price: 25000,
+    //     createdAt: DateTime.now().subtract(const Duration(seconds: 13)),
+    //   ),
+    // ProductModel(
+    //   imageUrl:
+    //       'https://cdn.idntimes.com/content-images/community/2022/05/img-20220505-090628-6d2cbb4bbec2340f770674be006d2944-242a598410a0b5610ba0c2d3bc499931.jpg',
+    //   name: 'Sate Kelinci',
+    //   description: 'Sate kelinci muda dengan olahran rempah Nusantara',
+    //   price: 35000,
+    //   createdAt: DateTime.now().subtract(const Duration(seconds: 13)),
+    // );
+    // ];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18.0),
       child: Column(
@@ -72,15 +79,24 @@ class ChooseMenu extends StatelessWidget {
             ),
           ),
           const SpaceHeight(14.0),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: products.length,
-            separatorBuilder: (context, index) => const SpaceHeight(11.0),
-            itemBuilder: (context, index) => MenuCard(
-              item: products[index],
-            ),
-          ),
+          FutureBuilder(
+              future: homeController.getprodukrestoran(item.id.toString()),
+              builder: (context, snp) {
+                if (snp.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                print("snp.data?.length");
+                print(snp.data?.length);
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: snp.data?.length,
+                  // separatorBuilder: (context, index) => const SpaceHeight(11.0),
+                  itemBuilder: (context, index) => MenuCard(
+                    item: homeController.produk[index],
+                  ),
+                );
+              }),
         ],
       ),
     );
@@ -88,7 +104,7 @@ class ChooseMenu extends StatelessWidget {
 }
 
 class MenuCard extends StatelessWidget {
-  final ProductModel item;
+  final Restoproduk item;
   const MenuCard({super.key, required this.item});
 
   @override
@@ -113,7 +129,7 @@ class MenuCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(16.0),
             child: CachedNetworkImage(
-              imageUrl: item.imageUrl,
+              imageUrl: "$urlApi/uploads/${item.imageUrl}",
               fit: BoxFit.cover,
               width: 90.0,
               height: 90.0,
@@ -159,7 +175,11 @@ class MenuCard extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(
+                        () => OrderPage(),
+                      );
+                    },
                     icon: Assets.icons.cart.svg(),
                   ),
                 ],

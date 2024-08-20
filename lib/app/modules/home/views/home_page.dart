@@ -28,16 +28,9 @@ class _HomePageState extends State<HomePage> {
 
   void initState() {
     super.initState();
-    // getData();
+    homeController.getData();
   }
 
-  // ResponDataLogin? DataUser;
-  // Future<ResponDataLogin?> getData() async {
-  //   DataUser = await LocalData().getAuthData();
-  //   print(DataUser?.data?.user?.name);
-  //   setState(() {});
-  //   return DataUser;
-  // }
   final HomeController homeController = Get.put(HomeController());
   @override
   void dispose() {
@@ -85,7 +78,6 @@ class _HomePageState extends State<HomePage> {
                 // ),
                 IconButton(
                     onPressed: () async {
-                      
                       homeController.logout();
                     },
                     icon: Icon(Icons.logout)),
@@ -183,19 +175,39 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             const SpaceHeight(10.0),
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 16.0,
-                crossAxisSpacing: 26.0,
-              ),
-              itemCount: restoList.length,
-              itemBuilder: (context, index) => RestoCard(
-                item: restoList[index],
-              ),
-            ),
+            FutureBuilder<List<dynamic>?>(
+                future: homeController.getallrestaurant(),
+                builder: (context, snp) {
+                  if (snp.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snp.data?.length == 0 || snp.data == null) {
+                    return const Center(child: Text("Data Kosong"));
+                  }
+                  print(snp.data?.length);
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 16.0,
+                      crossAxisSpacing: 26.0,
+                    ),
+                    itemCount: snp.data?.length,
+                    // itemCount: 4,
+                    itemBuilder: (context, index) => RestoCard(
+                      item: RestoModel(
+                        id: snp.data![index]['id'],
+                        imageUrl: snp.data![index]['photo'] ?? 'gambar',
+                        restoName:
+                            snp.data![index]['restaurant_name'] ?? 'kosong',
+                        address:
+                            snp.data![index]['restaurant_address'] ?? "kosong",
+                      ),
+                    ),
+                  );
+                }),
           ],
         ),
       ),

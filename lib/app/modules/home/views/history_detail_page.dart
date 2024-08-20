@@ -70,7 +70,7 @@ class HistoryDetailPage extends StatelessWidget {
             ),
           ),
           const SpaceHeight(20.0),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
@@ -106,7 +106,7 @@ class HistoryDetailPage extends StatelessWidget {
             ],
           ),
           const SpaceHeight(20.0),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(

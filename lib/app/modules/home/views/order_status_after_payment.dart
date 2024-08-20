@@ -68,7 +68,7 @@ class _OrderStatusAfterPaymentState extends State<OrderStatusAfterPayment> {
           context: context,
           isScrollControlled: false, // TODO: do true when order is delivering
           useSafeArea: true,
-          showDragHandle: true,
+          // showDragHandle: true,
           backgroundColor: AppColors.white,
           builder: (context) => const OrderStatusBottomSheet(),
         ),
@@ -97,7 +97,7 @@ class _OrderStatusAfterPaymentState extends State<OrderStatusAfterPayment> {
                       const SpaceWidth(10.0),
                       Assets.images.orderStatus.processing.image(height: 44.0),
                       const SpaceWidth(10.0),
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -210,7 +210,7 @@ class OrderStatusBottomSheet extends StatelessWidget {
             const SpaceWidth(10.0),
             Assets.images.orderStatus.processing.image(height: 44.0),
             const SpaceWidth(10.0),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -304,7 +304,7 @@ class OrderStatusBottomSheet extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(

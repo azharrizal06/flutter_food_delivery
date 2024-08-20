@@ -82,7 +82,7 @@ class RestoHeader extends StatelessWidget {
                 ],
               ),
               const SpaceHeight(20.0),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
                   children: [

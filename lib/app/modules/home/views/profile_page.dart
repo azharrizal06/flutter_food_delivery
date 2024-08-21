@@ -2,21 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/app/modules/home/controllers/home_controller.dart';
 import 'package:get/get.dart';
 
+import '../../../DataRespon/Respon_login.dart';
 import '../../../core/core.dart';
 import '../widgets/profile_header.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   final HomeController homeController = Get.put(HomeController());
+
+  late ResponDataLogin data = ResponDataLogin();
+  @override
+  void initState() {
+    super.initState();
+    // controllerresto.getData();
+    homeController.getData()
+      ?..then((value) {
+        setState(() {
+          data = value.value;
+        });
+      });
+    print("coba data profile");
+    print(data.data?.user?.photo);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
         children: [
-          const ProfileHeader(),
+          ProfileHeader(
+            gambar: data.data?.user!.photo ?? "",
+          ),
           const SpaceHeight(10.0),
-          const Text(
-            'Oliver Sykes',
+          Text(
+            data.data?.user?.name ?? "",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 22.0,
@@ -24,8 +49,8 @@ class ProfilePage extends StatelessWidget {
               color: AppColors.primary,
             ),
           ),
-          const Text(
-            'bahri@jagoflutter.id | 0812-3456-7891',
+          Text(
+            '${data.data?.user?.email} | ${data.data?.user?.phone}',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: AppColors.primary,

@@ -12,7 +12,7 @@ class RestoView extends GetView<RestoController> {
   RestoView({Key? key}) : super(key: key);
   RxInt _selectedIndex = 0.obs;
   final _widgets = [
-    const HomeRestoPage(),
+    HomeRestoPage(),
     MenuPage(),
     const OrderPage(),
     ProfileRestoPage(),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../core/core.dart';
+import '../controllers/resto_controller.dart';
 import 'home_page.dart';
 import 'menu_page.dart';
 import 'order_page.dart';
@@ -14,9 +16,11 @@ class MainPageResto extends StatefulWidget {
 }
 
 class _MainPageRestoState extends State<MainPageResto> {
+  final RestoController controllerresto = Get.put(RestoController());
+
   int _selectedIndex = 0;
   final _widgets = [
-    const HomeRestoPage(),
+    HomeRestoPage(),
     MenuPage(),
     const OrderPage(),
     ProfileRestoPage(),

@@ -12,13 +12,13 @@ import '../../../routes/app_pages.dart';
 class HomeController extends GetxController {
   var DataUser = ResponDataLogin().obs;
   var produk = [].obs;
-  Future<ResponDataLogin?> getData() async {
+  Future<Rx<ResponDataLogin>> getData() async {
     var data = await LocalData().getAuthData();
     print("data?.data?.token");
     print(data?.data?.token);
     // print(DataUser?.data?.user?.name);
     DataUser.value = data!;
-    // return DataUser;
+    return DataUser;
   }
 
   void logout() async {

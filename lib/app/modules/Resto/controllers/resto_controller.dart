@@ -5,10 +5,45 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
+import '../../../DataRespon/Respon_login.dart';
 import '../../../data/LocalData.dart';
 import '../../../help/Api.dart';
+import '../../../routes/app_pages.dart';
 
 class RestoController extends GetxController {
+  var DataUser = ResponDataLogin().obs;
+  var token = "".obs;
+
+  Future<Rx<ResponDataLogin>> getData() async {
+    var data = await LocalData().getAuthData();
+    print("data?.data?.token");
+    print(data?.data?.token);
+    // print(DataUser?.data?.user?.name);
+    DataUser.value = data!;
+    return DataUser;
+  }
+
+  void logout() async {
+    print(DataUser.value.data!.token!);
+    var prameter = {
+      "Accept": "application/json",
+      "Authorization": "Bearer ${DataUser.value.data!.token!}",
+    };
+
+    var response = await http.post(
+      Uri.parse('$urlApi/api/logout'),
+      headers: prameter,
+    );
+
+    if (response.statusCode == 200) {
+      await LocalData().removeAuthData();
+      Get.offAllNamed(Routes.LOGIN);
+      print(response.body);
+    } else {
+      print(response.body);
+    }
+  }
+
   //register reto
   Future<void> registerResto(
     String name,

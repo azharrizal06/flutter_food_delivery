@@ -1,23 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../DataRespon/Respon_login.dart';
 import '../../../core/core.dart';
-import '../../home/controllers/home_controller.dart';
 import '../../home/widgets/profile_header.dart';
+import '../controllers/resto_controller.dart';
 
-class ProfileRestoPage extends StatelessWidget {
+class ProfileRestoPage extends StatefulWidget {
   ProfileRestoPage({super.key});
-  final HomeController homeController = Get.put(HomeController());
+
+  @override
+  State<ProfileRestoPage> createState() => _ProfileRestoPageState();
+}
+
+class _ProfileRestoPageState extends State<ProfileRestoPage> {
+  // final HomeController homeController = Get.put(HomeController());
+  final RestoController controllerresto = Get.put(RestoController());
+  late ResponDataLogin data;
+  @override
+  void initState() {
+    super.initState();
+    // controllerresto.getData();
+    controllerresto.getData()
+      ?..then((value) {
+        setState(() {
+          data = value.value;
+        });
+      });
+    print("coba data profile");
+
+    // print(data);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
         children: [
-          const ProfileHeader(),
+          ProfileHeader(gambar: data.data?.user!.photo ?? ""),
           const SpaceHeight(10.0),
-          const Text(
-            'CWB RESTO',
+          Text(
+            "${data.data?.user?.name ?? ""} ",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 22.0,
@@ -25,8 +48,8 @@ class ProfileRestoPage extends StatelessWidget {
               color: AppColors.primary,
             ),
           ),
-          const Text(
-            'bahri@jagoflutter.id | 0812-3456-7891',
+          Text(
+            '${data.data?.user?.email ?? ""} | ${data.data?.user?.phone ?? ""}',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: AppColors.primary,
@@ -51,7 +74,7 @@ class ProfileRestoPage extends StatelessWidget {
                     title: const Text('Log out'),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-                      homeController.logout();
+                      controllerresto.logout();
                     },
                   ),
                   ListTile(

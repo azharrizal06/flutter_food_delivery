@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../core/assets/assets.dart';
 import '../../../core/components/components.dart';
 import '../../../core/constants/colors.dart';
+import '../controllers/resto_controller.dart';
 import '../widgets/home_menu_tile.dart';
 
-class HomeRestoPage extends StatelessWidget {
-  const HomeRestoPage({super.key});
+class HomeRestoPage extends StatefulWidget {
+  HomeRestoPage({super.key});
+
+  @override
+  State<HomeRestoPage> createState() => _HomeRestoPageState();
+}
+
+class _HomeRestoPageState extends State<HomeRestoPage> {
+  final RestoController controllerresto = Get.put(RestoController());
+
+  @override
+  void initState() {
+    super.initState();
+    print("getdata");
+    controllerresto.getData();
+  }
 
   @override
   Widget build(BuildContext context) {

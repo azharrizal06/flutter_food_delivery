@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/app/data/LocalData.dart';
+import 'package:food_delivery/app/modules/home/controllers/home_controller.dart';
 import 'package:get/get.dart';
 
 import '../../../core/core.dart';
@@ -13,18 +13,13 @@ class OrderDeliveryAddress extends StatefulWidget {
 }
 
 class _OrderDeliveryAddressState extends State<OrderDeliveryAddress> {
-  var addres;
-  @override
+  HomeController homeController = Get.find<HomeController>();
+  // var addres;
+  // @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    LocalData().getAuthData().then((value) {
-      if (value != null) {
-        setState(() {
-          addres = value.data!.user?.address!;
-        });
-      }
-    });
+    homeController.getuser();
   }
 
   @override
@@ -75,12 +70,20 @@ class _OrderDeliveryAddressState extends State<OrderDeliveryAddress> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '$addres',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12.0,
-                      color: AppColors.gray3,
+                  Obx(
+                    () => Container(
+                      width: Get.width * 0.7,
+                      child: Text(
+                        '${homeController.addres}',
+                        maxLines: 3, // Membatasi teks hingga 3 baris
+                        overflow: TextOverflow
+                            .ellipsis, // Menampilkan ... jika teks melebihi batas
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.0,
+                          color: AppColors.gray3,
+                        ),
+                      ),
                     ),
                   ),
                   const Text(

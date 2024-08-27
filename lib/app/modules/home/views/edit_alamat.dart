@@ -159,7 +159,7 @@ class _ChangeAddressPageState extends State<ChangeAddressPage> {
             child: IconButton(
               onPressed: () async {
                 final pref = await SharedPreferences.getInstance();
-                var data = pref.getString("auth_data");
+                var data = pref.getString("user");
                 print(data);
                 // Get.back();
                 // context.pop();

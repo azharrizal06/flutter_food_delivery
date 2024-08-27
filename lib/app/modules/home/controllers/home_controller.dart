@@ -157,6 +157,7 @@ class HomeController extends GetxController {
     calculateTotal();
   }
 
+  RxString addres = "".obs;
   //updateLatLong
   Future<UserModel?> updateLatLong(
     double latitude,
@@ -188,10 +189,11 @@ class HomeController extends GetxController {
         final UserModel resModel = UserModel.fromMap(responseModel['data']);
 
         // Simpan data pengguna yang diperbarui ke local storage
-        // await LocalData().saveUser(resModel);
+        await LocalData().saveUser(resModel);
 
         print(resModel.address); // Contoh akses data
         Get.back();
+        getuser();
         return resModel;
       } else {
         print("Failed to update user location: ${response.statusCode}");
@@ -201,5 +203,13 @@ class HomeController extends GetxController {
       print('An error occurred: $e');
       return null;
     }
+  }
+
+  void getuser() {
+    LocalData().getUser().then((value) {
+      if (value != null) {
+        addres.value = value.address ?? "belum ada alamat";
+      }
+    });
   }
 }

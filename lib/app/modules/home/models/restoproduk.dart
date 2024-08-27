@@ -24,7 +24,7 @@ class Restoproduk {
     required this.isFavorite,
     required this.createdAt,
     required this.updatedAt,
-    this.quantity = 0,
+    this.quantity = 1,
   });
 
   // Method untuk memformat harga

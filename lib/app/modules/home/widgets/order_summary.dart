@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../core/core.dart';
+import '../controllers/home_controller.dart';
 
 class OrderSummary extends StatelessWidget {
-  const OrderSummary({super.key});
+  OrderSummary({super.key});
+  final HomeController homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +37,13 @@ class OrderSummary extends StatelessWidget {
                   color: AppColors.gray3,
                 ),
               ),
-              Text(
-                45000.currencyFormatRp,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.gray3,
+              Obx(
+                () => Text(
+                  homeController.total.value.currencyFormatRp,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.gray3,
+                  ),
                 ),
               ),
             ],
@@ -55,7 +60,7 @@ class OrderSummary extends StatelessWidget {
                 ),
               ),
               Text(
-                10000.currencyFormatRp,
+                1000000.currencyFormatRp,
                 style: const TextStyle(
                   fontWeight: FontWeight.w500,
                   color: AppColors.gray3,
@@ -76,7 +81,7 @@ class OrderSummary extends StatelessWidget {
                 ),
               ),
               Text(
-                55000.currencyFormatRp,
+                homeController.total.value.currencyFormatRp,
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                 ),

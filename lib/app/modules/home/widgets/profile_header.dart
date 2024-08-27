@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery/app/help/Api.dart';
 
 import '../../../core/core.dart';
 
@@ -28,9 +27,11 @@ class ProfileHeader extends StatelessWidget {
         ),
         ClipOval(
           child: CachedNetworkImage(
-            imageUrl: gambar == null || gambar.isEmpty
-                ? "https://nationaltoday.com/wp-content/uploads/2022/10/456840829-min-1200x834.jpg"
-                : "$urlApi/images/${gambar.trim()}",
+            imageUrl:
+                //  gambar == null || gambar.isEmpty
+                // ?
+                "$gambar",
+            // : "$urlApi/images/${gambar.trim()}",
             fit: BoxFit.cover,
             width: 110.0,
             height: 110.0,

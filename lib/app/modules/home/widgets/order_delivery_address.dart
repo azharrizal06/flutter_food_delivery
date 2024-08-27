@@ -1,9 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/app/data/LocalData.dart';
+import 'package:get/get.dart';
 
 import '../../../core/core.dart';
+import '../views/edit_alamat.dart';
 
-class OrderDeliveryAddress extends StatelessWidget {
+class OrderDeliveryAddress extends StatefulWidget {
   const OrderDeliveryAddress({super.key});
+
+  @override
+  State<OrderDeliveryAddress> createState() => _OrderDeliveryAddressState();
+}
+
+class _OrderDeliveryAddressState extends State<OrderDeliveryAddress> {
+  var addres;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    LocalData().getAuthData().then((value) {
+      if (value != null) {
+        setState(() {
+          addres = value.data!.user?.address!;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +48,9 @@ class OrderDeliveryAddress extends StatelessWidget {
                 ),
               ),
               Button.outlined(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(ChangeAddressPage());
+                },
                 label: 'Ubah',
                 height: 30.0,
                 width: 80.0,
@@ -52,14 +76,14 @@ class OrderDeliveryAddress extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Jalan Kampung Flutter No 20',
+                    '$addres',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 12.0,
                       color: AppColors.gray3,
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Home',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,

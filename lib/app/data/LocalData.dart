@@ -4,8 +4,15 @@ import '../DataRespon/Respon_login.dart';
 
 class LocalData {
   Future<void> savedata(ResponDataLogin responDataLogin) async {
-    final pref = await SharedPreferences.getInstance();
-    await pref.setString("auth_data", responDataLogin.toJson());
+    try {
+      final pref = await SharedPreferences.getInstance();
+      await pref.setString("auth_data", responDataLogin.toJson());
+
+      print("esponDataLogin.toJson()");
+      print(responDataLogin.toJson());
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<ResponDataLogin?> getAuthData() async {
@@ -27,4 +34,17 @@ class LocalData {
     final pref = await SharedPreferences.getInstance();
     return pref.containsKey("auth_data");
   }
+
+  // Future<void> saveUser(UserModel responDataLogin) async {
+  //   try {
+  //     final pref = await SharedPreferences.getInstance();
+  //     String userJson = jsonEncode(responDataLogin.toJson());
+  //     await pref.setString("user", userJson);
+
+  //     print("esponDataLogin.toJson()");
+  //     print(responDataLogin.toJson());
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 }

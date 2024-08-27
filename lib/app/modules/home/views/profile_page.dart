@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/app/modules/home/controllers/home_controller.dart';
+import 'package:food_delivery/app/modules/home/views/edit_profile.dart';
 import 'package:get/get.dart';
 
 import '../../../DataRespon/Respon_login.dart';
@@ -37,7 +38,9 @@ class _ProfilePageState extends State<ProfilePage> {
       body: ListView(
         children: [
           ProfileHeader(
-            gambar: data.data?.user!.photo ?? "",
+            // gambar: data.data?.user!.photo ?? "",
+            gambar:
+                'https://nationaltoday.com/wp-content/uploads/2022/10/456840829-min-1200x834.jpg',
           ),
           const SpaceHeight(10.0),
           Text(
@@ -68,7 +71,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     title: const Text('My Account'),
                     subtitle: const Text('Make changes to your account'),
                     trailing: const Icon(Icons.chevron_right),
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(() => const EditProfile());
+                    },
                   ),
                   ListTile(
                     leading: Assets.icons.logoutCircle.svg(),

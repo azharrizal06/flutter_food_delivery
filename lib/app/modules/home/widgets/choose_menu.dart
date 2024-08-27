@@ -80,7 +80,7 @@ class ChooseMenu extends StatelessWidget {
           ),
           const SpaceHeight(14.0),
           FutureBuilder(
-              future: homeController.getprodukrestoran(item.id.toString()),
+              future: homeController.getprodukrestoran(item.id),
               builder: (context, snp) {
                 if (snp.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -105,7 +105,8 @@ class ChooseMenu extends StatelessWidget {
 
 class MenuCard extends StatelessWidget {
   final Restoproduk item;
-  const MenuCard({super.key, required this.item});
+  MenuCard({super.key, required this.item});
+  final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -176,12 +177,12 @@ class MenuCard extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () {
-                      Get.to(
-                        () => OrderPage(),
-                      );
+                      homeController.addProduct(item);
+
+                      Get.to(() => OrderPage()); // Navigasi ke OrderPage
                     },
                     icon: Assets.icons.cart.svg(),
-                  ),
+                  )
                 ],
               ),
             ],

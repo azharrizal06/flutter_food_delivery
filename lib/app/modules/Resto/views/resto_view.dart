@@ -14,7 +14,7 @@ class RestoView extends GetView<RestoController> {
   final _widgets = [
     HomeRestoPage(),
     MenuPage(),
-    const OrderPage(),
+    OrderPage(),
     ProfileRestoPage(),
   ];
   @override

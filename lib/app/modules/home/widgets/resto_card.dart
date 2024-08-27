@@ -33,40 +33,45 @@ class RestoCard extends StatelessWidget {
               ),
             ),
           ),
-          Column(
-            children: [
-              SpaceHeight(8.0),
-              Text(
-                item.restoName,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Row(
-                children: [
-                  Assets.icons.location.svg(
-                    width: 16.0,
-                    height: 16.0,
-                    colorFilter: const ColorFilter.mode(
-                        AppColors.gray3, BlendMode.srcIn),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SpaceHeight(8.0),
+                Text(
+                  item.restoName,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
                   ),
-                  const SpaceWidth(4.0),
-                  SizedBox(
-                    width: context.deviceWidth - 264.0,
-                    child: Text(
-                      item.address,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12.0,
-                        color: AppColors.gray3,
+                ),
+                Row(
+                  children: [
+                    Assets.icons.location.svg(
+                      width: 16.0,
+                      height: 16.0,
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.gray3, BlendMode.srcIn),
+                    ),
+                    const SpaceWidth(4.0),
+                    SizedBox(
+                      width: context.deviceWidth - 264.0,
+                      child: Text(
+                        item.address,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.0,
+                          color: AppColors.gray3,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           )
         ],
       ),

@@ -168,6 +168,7 @@ class _RegisterRestoState extends State<RegisterResto> {
                               emailController.text,
                               phoneController.text,
                               passwordController.text,
+                              // latlong
                               _image!);
                         },
                         label: 'Sign Up',

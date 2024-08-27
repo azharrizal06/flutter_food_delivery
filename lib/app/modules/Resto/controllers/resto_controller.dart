@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -50,8 +51,35 @@ class RestoController extends GetxController {
     String email,
     String phone,
     String password,
+    // String latlong,
     File image,
   ) async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      print('Location services are disabled.');
+      return;
+    }
+
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        print('Location permissions are denied');
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      print(
+          'Location permissions are permanently denied, we cannot request permissions.');
+      return;
+    }
+
+    // Mengambil lokasi pengguna
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    String latlong = '${position.latitude},${position.longitude}';
+    print("$name,$email,$phone,$password,$latlong");
     var uri = Uri.parse(
         '$urlApi/api/restaurant/register'); // Pastikan URL diawali dengan 'http://'
     var request = http.MultipartRequest('POST', uri);
@@ -62,7 +90,7 @@ class RestoController extends GetxController {
     request.fields['password'] = password;
     request.fields['restaurant_name'] = name;
     request.fields['restaurant_address'] = name;
-    request.fields['latlong'] = "14234,324434";
+    request.fields['latlong'] = latlong;
 
     request.files.add(await http.MultipartFile.fromPath('photo', image.path));
 
@@ -73,7 +101,7 @@ class RestoController extends GetxController {
     if (response.statusCode == 200) {
       var res = jsonDecode(await response.stream.bytesToString());
       if (res['status'] == "success") {
-        // Get.toNamed(Routes.LOGIN);
+        Get.toNamed(Routes.LOGIN);
         print('Registration successful: ${res['message']}');
       } else {
         print('Registration failed: ${res['message']}');
@@ -113,8 +141,8 @@ class RestoController extends GetxController {
     if (response.statusCode == 200) {
       var res = jsonDecode(await response.stream.bytesToString());
       if (res['status'] == "success") {
-        Get.back();
         print('Registration successful: ${res['message']}');
+        // Get.toNamed(Routes.LOGIN);
       } else {
         print('Registration failed: ${res['message']}');
       }

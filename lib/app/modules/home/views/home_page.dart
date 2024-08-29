@@ -200,6 +200,8 @@ class _HomePageState extends State<HomePage> {
                       // itemCount: 4,
                       itemBuilder: (context, index) {
                         DataResto userData = snp.data![index];
+                        print(
+                            'Index: $index, Restaurant Name: ${userData.restaurantName}');
 
                         return RestoCard(
                           item: userData,

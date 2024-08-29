@@ -199,9 +199,10 @@ class HomeController extends GetxController {
         await LocalData().saveUser(resModel!);
 
         print(resModel?.latlong); // Contoh akses data
-        Get.back();
         getuser();
-        // calculateDistance();
+        calculateDistance(datarestoletar);
+        Get.back();
+
         return resModel;
       } else {
         print("Failed to update user location: ${response.statusCode}");
@@ -221,6 +222,7 @@ class HomeController extends GetxController {
     });
   }
 
+  late DataResto datarestoletar;
   RxDouble distance = 0.0.obs;
   RxDouble ongkos = 0.0.obs;
 

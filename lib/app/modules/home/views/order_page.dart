@@ -19,22 +19,22 @@ class OrderPage extends StatefulWidget {
 class _OrderPageState extends State<OrderPage> {
   final HomeController homeController = Get.find<HomeController>();
   DataResto? resto = Get.arguments;
-  void initState() {
-    super.initState();
+  // void initState() {
+  //   super.initState();
 
-    // Menggunakan addPostFrameCallback untuk memanggil calculateDistance
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      homeController.calculateDistance(resto!);
-    });
-  }
+  //   // Menggunakan addPostFrameCallback untuk memanggil calculateDistance
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     homeController.calculateDistance(resto!);
+  //   });
+  // }
 
-  // update page ketika di akses
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      homeController.calculateDistance(resto!);
-    });
-  }
+  // // update page ketika di akses
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     homeController.calculateDistance(resto!);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -84,13 +84,11 @@ class _OrderPageState extends State<OrderPage> {
                         // ongkos: ongkos.value,
                         ),
                     const SpaceHeight(36.0),
-                    Obx(
-                      () => Button.filled(
-                        onPressed: () {
-                          context.push(const PaymentPage());
-                        },
-                        label: '${homeController.ongkos.value}',
-                      ),
+                    Button.filled(
+                      onPressed: () {
+                        context.push(const PaymentPage());
+                      },
+                      label: 'Bayar Sekarang',
                     ),
                     const SpaceHeight(30.0),
                   ],

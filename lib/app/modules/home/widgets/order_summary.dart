@@ -82,10 +82,12 @@ class OrderSummary extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              Text(
-                homeController.total.value.currencyFormatRp,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
+              Obx(
+                () => Text(
+                  "${(homeController.total.value + homeController.ongkos.value).currencyFormatRp}",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],

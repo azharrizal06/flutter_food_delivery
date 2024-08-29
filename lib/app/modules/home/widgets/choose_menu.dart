@@ -10,12 +10,15 @@ import '../../../DataRespon/respon_restoran.dart';
 import '../../../core/core.dart';
 
 class ChooseMenu extends StatelessWidget {
-  final DataResto item;
-  ChooseMenu({super.key, required this.item});
+  DataResto? item;
+  ChooseMenu({
+    super.key,
+  });
   final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
+    item = homeController.datarestoletar;
     // final products = [
     //   ProductModel(
     //     imageUrl:
@@ -80,7 +83,7 @@ class ChooseMenu extends StatelessWidget {
           ),
           const SpaceHeight(14.0),
           FutureBuilder(
-              future: homeController.getprodukrestoran(item.id),
+              future: homeController.getprodukrestoran(item!.id),
               builder: (context, snp) {
                 if (snp.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -94,7 +97,6 @@ class ChooseMenu extends StatelessWidget {
                   // separatorBuilder: (context, index) => const SpaceHeight(11.0),
                   itemBuilder: (context, index) => MenuCard(
                     item: homeController.produk[index],
-                    resto: item,
                   ),
                 );
               }),
@@ -106,12 +108,16 @@ class ChooseMenu extends StatelessWidget {
 
 class MenuCard extends StatelessWidget {
   final Restoproduk item;
-  final DataResto resto;
-  MenuCard({super.key, required this.item, required this.resto});
+  DataResto? resto;
+  MenuCard({
+    super.key,
+    required this.item,
+  });
   final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
+    resto = homeController.datarestoletar;
     return Container(
       padding: const EdgeInsets.all(14.0),
       decoration: BoxDecoration(
@@ -179,7 +185,7 @@ class MenuCard extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () {
-                      print(resto.latlong);
+                      print(resto?.latlong);
                       homeController.addProduct(item);
 
                       Get.toNamed(Routes.ORDER, arguments: resto);

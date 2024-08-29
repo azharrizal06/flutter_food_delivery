@@ -11,18 +11,19 @@ class RestoMenuPage extends StatelessWidget {
   RestoMenuPage({super.key, required this.resto});
 
   // final RestoModel item;
-  final DataResto resto;
+  late DataResto resto;
 
   final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
+    homeController.datarestoletar = resto;
     return Scaffold(
       body: ListView(
         children: [
-          RestoHeader(item: resto),
+          RestoHeader(),
           SpaceHeight(30.0),
-          ChooseMenu(item: resto),
+          ChooseMenu(),
           SpaceHeight(30.0),
         ],
       ),

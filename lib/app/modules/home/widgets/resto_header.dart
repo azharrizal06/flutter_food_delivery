@@ -2,13 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/app/help/Api.dart';
 
+import '../../../DataRespon/respon_restoran.dart';
 import '../../../core/core.dart';
-import '../models/resto_model.dart';
 
 class RestoHeader extends StatelessWidget {
   const RestoHeader({super.key, required this.item});
 
-  final RestoModel item;
+  final DataResto item;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class RestoHeader extends StatelessWidget {
                 children: [
                   ClipOval(
                     child: CachedNetworkImage(
-                      imageUrl: '$urlApi/images/${item.imageUrl}',
+                      imageUrl: '$urlApi/images/${item.photo}',
                       fit: BoxFit.cover,
                       width: 56.0,
                       height: 56.0,
@@ -60,7 +60,7 @@ class RestoHeader extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        item.restoName,
+                        item.restaurantName ?? '',
                         style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
@@ -72,7 +72,7 @@ class RestoHeader extends StatelessWidget {
                           Assets.icons.location.svg(),
                           const SpaceWidth(8.0),
                           Text(
-                            item.address,
+                            item.restaurantAddress ?? '',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: AppColors.gray2,

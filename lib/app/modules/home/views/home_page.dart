@@ -2,11 +2,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../DataRespon/respon_restoran.dart';
 import '../../../core/assets/assets.dart';
 import '../../../core/components/components.dart';
 import '../../../core/constants/colors.dart';
 import '../controllers/home_controller.dart';
-import '../models/resto_model.dart';
 import '../widgets/resto_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -175,38 +175,36 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             const SpaceHeight(10.0),
-            FutureBuilder<List<dynamic>?>(
-                future: homeController.getallrestaurant(),
+            FutureBuilder<List<DataResto>?>(
+                future: homeController.getAllRestaurant(),
                 builder: (context, snp) {
                   if (snp.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   }
-                  if (snp.data?.length == 0 || snp.data == null) {
+                  print("snp.data?.length");
+                  print(snp.data?.length);
+                  if (snp.data == null || snp.data!.isEmpty) {
                     return const Center(child: Text("Data Kosong"));
                   }
                   print(snp.data?.length);
                   return GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 16.0,
-                      crossAxisSpacing: 26.0,
-                    ),
-                    itemCount: snp.data?.length,
-                    // itemCount: 4,
-                    itemBuilder: (context, index) => RestoCard(
-                      item: RestoModel(
-                        id: snp.data![index]['id'],
-                        imageUrl: snp.data![index]['photo'] ?? 'gambar',
-                        restoName:
-                            snp.data![index]['restaurant_name'] ?? 'kosong',
-                        address:
-                            snp.data![index]['restaurant_address'] ?? "kosong",
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 16.0,
+                        crossAxisSpacing: 26.0,
                       ),
-                    ),
-                  );
+                      itemCount: snp.data?.length,
+                      // itemCount: 4,
+                      itemBuilder: (context, index) {
+                        DataResto userData = snp.data![index];
+
+                        return RestoCard(
+                          item: userData,
+                        );
+                      });
                 }),
           ],
         ),

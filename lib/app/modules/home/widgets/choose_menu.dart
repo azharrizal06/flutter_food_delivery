@@ -2,15 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/app/help/Api.dart';
 import 'package:food_delivery/app/modules/home/controllers/home_controller.dart';
-import 'package:food_delivery/app/modules/home/models/resto_model.dart';
 import 'package:food_delivery/app/modules/home/models/restoproduk.dart';
+import 'package:food_delivery/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
+import '../../../DataRespon/respon_restoran.dart';
 import '../../../core/core.dart';
-import '../views/order_page.dart';
 
 class ChooseMenu extends StatelessWidget {
-  final RestoModel item;
+  final DataResto item;
   ChooseMenu({super.key, required this.item});
   final HomeController homeController = Get.put(HomeController());
 
@@ -94,6 +94,7 @@ class ChooseMenu extends StatelessWidget {
                   // separatorBuilder: (context, index) => const SpaceHeight(11.0),
                   itemBuilder: (context, index) => MenuCard(
                     item: homeController.produk[index],
+                    resto: item,
                   ),
                 );
               }),
@@ -105,7 +106,8 @@ class ChooseMenu extends StatelessWidget {
 
 class MenuCard extends StatelessWidget {
   final Restoproduk item;
-  MenuCard({super.key, required this.item});
+  final DataResto resto;
+  MenuCard({super.key, required this.item, required this.resto});
   final HomeController homeController = Get.put(HomeController());
 
   @override
@@ -177,9 +179,10 @@ class MenuCard extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () {
+                      print(resto.latlong);
                       homeController.addProduct(item);
 
-                      Get.to(() => OrderPage()); // Navigasi ke OrderPage
+                      Get.toNamed(Routes.ORDER, arguments: resto);
                     },
                     icon: Assets.icons.cart.svg(),
                   )

@@ -2,16 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/app/modules/home/controllers/home_controller.dart';
 import 'package:get/get.dart';
 
+import '../../../DataRespon/respon_restoran.dart';
 import '../../../core/core.dart';
 import '../widgets/order_card.dart';
 import '../widgets/order_delivery_address.dart';
 import '../widgets/order_summary.dart';
 import 'payment_page.dart';
 
-class OrderPage extends StatelessWidget {
-  final HomeController homeController = Get.find<HomeController>();
-
+class OrderPage extends StatefulWidget {
   OrderPage({super.key});
+
+  @override
+  State<OrderPage> createState() => _OrderPageState();
+}
+
+class _OrderPageState extends State<OrderPage> {
+  final HomeController homeController = Get.find<HomeController>();
+  DataResto? resto = Get.arguments;
+  void initState() {
+    super.initState();
+
+    // Menggunakan addPostFrameCallback untuk memanggil calculateDistance
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      homeController.calculateDistance(resto!);
+    });
+  }
+
+  // update page ketika di akses
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      homeController.calculateDistance(resto!);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +80,17 @@ class OrderPage extends StatelessWidget {
                       ),
                     ),
                     const SpaceHeight(40.0),
-                    OrderSummary(),
+                    OrderSummary(
+                        // ongkos: ongkos.value,
+                        ),
                     const SpaceHeight(36.0),
-                    Button.filled(
-                      onPressed: () {
-                        context.push(const PaymentPage());
-                      },
-                      label: 'Pesan Sekarang',
+                    Obx(
+                      () => Button.filled(
+                        onPressed: () {
+                          context.push(const PaymentPage());
+                        },
+                        label: '${homeController.ongkos.value}',
+                      ),
                     ),
                     const SpaceHeight(30.0),
                   ],

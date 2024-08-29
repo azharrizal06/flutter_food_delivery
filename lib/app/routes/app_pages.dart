@@ -8,6 +8,7 @@ import '../modules/daftar/bindings/daftar_binding.dart';
 import '../modules/daftar/views/daftar_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/home/views/order_page.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 
@@ -42,6 +43,11 @@ class AppPages {
     GetPage(
       name: _Paths.DAFTAR,
       page: () => DaftarView(),
+      binding: DaftarBinding(),
+    ),
+    GetPage(
+      name: _Paths.ORDER,
+      page: () => OrderPage(),
       binding: DaftarBinding(),
     ),
   ];

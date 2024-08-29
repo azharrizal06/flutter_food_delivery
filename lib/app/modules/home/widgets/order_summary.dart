@@ -59,11 +59,13 @@ class OrderSummary extends StatelessWidget {
                   color: AppColors.gray3,
                 ),
               ),
-              Text(
-                1000000.currencyFormatRp,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.gray3,
+              Obx(
+                () => Text(
+                  homeController.ongkos.value.currencyFormatRp,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.gray3,
+                  ),
                 ),
               ),
             ],

@@ -12,7 +12,7 @@ class UserModel {
   final String? restaurantName;
   final String? restaurantAddress;
   final String? photo;
-  final String latlong;
+  final String? latlong;
 
   UserModel({
     required this.id,
@@ -68,6 +68,8 @@ class UserModel {
       latlong: map['latlong'],
     );
   }
+
+  get value => null;
 
   Map<String, dynamic> toJson() {
     return {

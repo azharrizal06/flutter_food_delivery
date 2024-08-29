@@ -6,9 +6,11 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../DataRespon/Respon_login.dart';
+import '../../../DataRespon/respon_restoran.dart';
 import '../../../DataRespon/respon_user.dart';
 import '../../../data/LocalData.dart';
 import '../../../help/Api.dart';
+import '../../../help/jarak.dart';
 import '../../../routes/app_pages.dart';
 
 class HomeController extends GetxController {
@@ -48,18 +50,22 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<List<dynamic>?> getallrestaurant() async {
+  List<DataResto> restaurants = [];
+  Future<List<DataResto>?> getAllRestaurant() async {
     var uri = Uri.parse('$urlApi/api/restaurants');
     var response = await http.get(uri, headers: {
       "Authorization": "Bearer ${DataUser.value.data?.token}",
     });
+
     if (response.statusCode == 200) {
       var res = jsonDecode(response.body);
       print("get all restaurant");
-      var data = res['data'] as List<dynamic>;
-      print(data);
 
-      return data;
+      var data = res['data'] as List<dynamic>;
+      restaurants = data.map((item) => DataResto.fromJson(item)).toList();
+      print(restaurants);
+
+      return restaurants;
     } else {
       // Handle error
       print("Failed to load restaurants: ${response.statusCode}");
@@ -158,6 +164,7 @@ class HomeController extends GetxController {
   }
 
   RxString addres = "".obs;
+  UserModel? resModel;
   //updateLatLong
   Future<UserModel?> updateLatLong(
     double latitude,
@@ -186,14 +193,15 @@ class HomeController extends GetxController {
         final Map<String, dynamic> responseModel = jsonDecode(response.body);
 
         // Mengonversi Map menjadi ResponDataLogin menggunakan fromMap
-        final UserModel resModel = UserModel.fromMap(responseModel['data']);
+        resModel = UserModel.fromMap(responseModel['data']);
 
         // Simpan data pengguna yang diperbarui ke local storage
-        await LocalData().saveUser(resModel);
+        await LocalData().saveUser(resModel!);
 
-        print(resModel.address); // Contoh akses data
+        print(resModel?.latlong); // Contoh akses data
         Get.back();
         getuser();
+        // calculateDistance();
         return resModel;
       } else {
         print("Failed to update user location: ${response.statusCode}");
@@ -211,5 +219,45 @@ class HomeController extends GetxController {
         addres.value = value.address ?? "belum ada alamat";
       }
     });
+  }
+
+  RxDouble distance = 0.0.obs;
+  RxDouble ongkos = 0.0.obs;
+
+  @override
+  void calculateDistance(DataResto resto) {
+    var latlong = resto?.latlong;
+    UserModel? user = resModel;
+    print(latlong);
+    print(user?.latlong);
+    if (latlong != null && user?.latlong != null) {
+      List<String> partsResto = latlong.split(',');
+      List<String> partsUser = user!.latlong!.split(',');
+
+      double latitudeResto = double.parse(partsResto[0]);
+      double longitudeResto = double.parse(partsResto[1]);
+      double latitudeUser = double.parse(partsUser[0]);
+      double longitudeUser = double.parse(partsUser[1]);
+      print(partsResto + partsUser);
+
+      double calculatedDistance = RadiusCalculate.calculateDistance(
+          latitudeResto, longitudeResto, latitudeUser, longitudeUser);
+
+      distance.value = calculatedDistance;
+      double additionalFarePer100m = 1000;
+      int units = (calculatedDistance * 10).ceil();
+      ongkos.value = units * additionalFarePer100m;
+
+      print(
+          'Jarak antara dua titik adalah: ${calculatedDistance.toStringAsFixed(2)} km');
+      print('Ongkos kirim adalah: Rp${ongkos.toStringAsFixed(0)}');
+    } else {
+      print('Latlong tidak tersedia');
+    }
+  }
+
+  void onInit() {
+    super.onInit();
+    // calculateDistance();
   }
 }

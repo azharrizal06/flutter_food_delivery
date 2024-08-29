@@ -2,19 +2,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/app/help/Api.dart';
 
+import '../../../DataRespon/respon_restoran.dart';
 import '../../../core/core.dart';
-import '../models/resto_model.dart';
 import '../views/resto_menu_page.dart';
 
 class RestoCard extends StatelessWidget {
-  final RestoModel item;
+  final DataResto item;
   RestoCard({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => context.push(RestoMenuPage(
-        item: item,
+        resto: item,
       )),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -27,7 +27,7 @@ class RestoCard extends StatelessWidget {
                 width: context.deviceWidth,
                 height: 110.0,
                 fit: BoxFit.cover,
-                imageUrl: "$urlApi/images/${item.imageUrl}",
+                imageUrl: "$urlApi/images/${item.photo}",
                 placeholder: (context, url) =>
                     const Center(child: CircularProgressIndicator()),
               ),
@@ -40,7 +40,7 @@ class RestoCard extends StatelessWidget {
               children: [
                 SpaceHeight(8.0),
                 Text(
-                  item.restoName,
+                  item.restaurantName ?? '',
                   textAlign: TextAlign.left,
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
@@ -58,7 +58,7 @@ class RestoCard extends StatelessWidget {
                     SizedBox(
                       width: context.deviceWidth - 264.0,
                       child: Text(
-                        item.address,
+                        item.restaurantAddress ?? '',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(

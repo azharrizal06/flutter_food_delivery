@@ -10,6 +10,7 @@ abstract class Routes {
   static const DRIVER = _Paths.DRIVER;
   static const RESTO = _Paths.RESTO;
   static const DAFTAR = _Paths.DAFTAR;
+  static const ORDER = _Paths.ORDER;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const DRIVER = '/driver';
   static const RESTO = '/resto';
   static const DAFTAR = '/daftar';
+  static const ORDER = '/order';
 }

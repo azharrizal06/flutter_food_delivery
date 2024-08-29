@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery/app/modules/home/widgets/loading.dart';
 import 'package:get/get.dart';
 
 import '../../../DataRespon/respon_restoran.dart';
@@ -179,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                 future: homeController.getAllRestaurant(),
                 builder: (context, snp) {
                   if (snp.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return loading(context);
                   }
                   print("snp.data?.length");
                   print(snp.data?.length);

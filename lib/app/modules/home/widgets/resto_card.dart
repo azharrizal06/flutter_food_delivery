@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/app/help/Api.dart';
+import 'package:food_delivery/app/modules/home/widgets/loading.dart';
 
 import '../../../DataRespon/respon_restoran.dart';
 import '../../../core/core.dart';
@@ -24,13 +25,11 @@ class RestoCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12.0),
               child: CachedNetworkImage(
-                width: context.deviceWidth,
-                height: 110.0,
-                fit: BoxFit.cover,
-                imageUrl: "$urlApi/images/${item.photo}",
-                placeholder: (context, url) =>
-                    const Center(child: CircularProgressIndicator()),
-              ),
+                  width: context.deviceWidth,
+                  height: 110.0,
+                  fit: BoxFit.cover,
+                  imageUrl: "$urlApi/images/${item.photo}",
+                  placeholder: (context, url) => loading(context)),
             ),
           ),
           Padding(

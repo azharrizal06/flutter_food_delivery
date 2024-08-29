@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/app/help/Api.dart';
 import 'package:food_delivery/app/modules/home/controllers/home_controller.dart';
 import 'package:food_delivery/app/modules/home/models/restoproduk.dart';
+import 'package:food_delivery/app/modules/home/widgets/loading.dart';
 import 'package:food_delivery/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
@@ -138,13 +139,11 @@ class MenuCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(16.0),
             child: CachedNetworkImage(
-              imageUrl: "$urlApi/uploads/${item.imageUrl}",
-              fit: BoxFit.cover,
-              width: 90.0,
-              height: 90.0,
-              placeholder: (context, url) =>
-                  const Center(child: CircularProgressIndicator()),
-            ),
+                imageUrl: "$urlApi/uploads/${item.imageUrl}",
+                fit: BoxFit.cover,
+                width: 90.0,
+                height: 90.0,
+                placeholder: (context, url) => loading(context)),
           ),
           const SpaceWidth(28.0),
           Column(

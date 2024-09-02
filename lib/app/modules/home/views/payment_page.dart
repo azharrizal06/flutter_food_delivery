@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/app/modules/home/controllers/home_controller.dart';
+import 'package:get/get.dart';
 
+import '../../../DataRespon/respon_order.dart';
 import '../../../core/core.dart';
 import '../models/bank_account_model.dart';
 import '../widgets/payment_method.dart';
 import 'order_status_after_payment.dart';
 
 class PaymentPage extends StatelessWidget {
-  const PaymentPage({super.key});
-
+  PaymentPage({super.key});
+  HomeController homeController = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
+    DataPesanan? data = homeController.DataPesan;
     final selectedPayment = ValueNotifier<int>(0);
     final selectedPaymentBottomSheet = ValueNotifier<int>(0);
     final banks = [
@@ -181,7 +185,7 @@ class PaymentPage extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      375000.currencyFormatRp,
+                      data!.totalPrice!.currencyFormatRp,
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         color: AppColors.gray3,
@@ -201,7 +205,7 @@ class PaymentPage extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      2000.currencyFormatRp,
+                      data.shippingCost!.currencyFormatRp,
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         color: AppColors.gray3,
@@ -225,7 +229,7 @@ class PaymentPage extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      377000.currencyFormatRp,
+                      data.totalBill!.currencyFormatRp,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
                       ),

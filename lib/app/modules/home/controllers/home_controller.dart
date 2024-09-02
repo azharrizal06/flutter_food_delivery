@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:food_delivery/app/DataRespon/respon_order.dart';
 import 'package:food_delivery/app/modules/home/models/restoproduk.dart';
 import 'package:food_delivery/app/modules/home/views/order_page.dart';
 import 'package:get/get.dart';
@@ -12,12 +13,18 @@ import '../../../data/LocalData.dart';
 import '../../../help/Api.dart';
 import '../../../help/jarak.dart';
 import '../../../routes/app_pages.dart';
+import '../views/payment_page.dart';
 
 class HomeController extends GetxController {
   var DataUser = ResponDataLogin().obs;
-  var produk = <Restoproduk>[]
-      .obs; // Disarankan menggunakan tipe yang lebih spesifik daripada List kosong
+  var produk = <Restoproduk>[].obs;
   var orders = <Restoproduk>[].obs;
+  late DataResto datarestoletar;
+  RxDouble distance = 0.0.obs;
+  RxDouble ongkos = 0.0.obs;
+  RxString addres = "".obs;
+  UserModel? resModel;
+
   var total = 0.0.obs;
 
   Future<Rx<ResponDataLogin>> getData() async {
@@ -163,8 +170,6 @@ class HomeController extends GetxController {
     calculateTotal();
   }
 
-  RxString addres = "".obs;
-  UserModel? resModel;
   //updateLatLong
   Future<UserModel?> updateLatLong(
     double latitude,
@@ -222,10 +227,6 @@ class HomeController extends GetxController {
     });
   }
 
-  late DataResto datarestoletar;
-  RxDouble distance = 0.0.obs;
-  RxDouble ongkos = 0.0.obs;
-
   @override
   void calculateDistance(DataResto resto) {
     var latlong = resto?.latlong;
@@ -258,8 +259,43 @@ class HomeController extends GetxController {
     }
   }
 
-  void onInit() {
-    super.onInit();
-    // calculateDistance();
+  DataPesanan? DataPesan;
+//order
+  void pesan_sekarang(
+      // product_id, quantity, restaurant_id, shipping_cost
+      ) async {
+    final authData = await LocalData().getAuthData();
+    final header = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${authData?.data!.token}',
+    };
+
+    final url = Uri.parse('${urlApi}/api/order');
+    List<Map<String, dynamic>> orderItems = orders
+        .map((item) => {'product_id': item.id, 'quantity': item.quantity})
+        .toList();
+    final response = await http.post(
+      url,
+      headers: header,
+      body: jsonEncode({
+        "order_items": orderItems,
+        "restaurant_id": datarestoletar.id,
+        "shipping_cost": ongkos.value,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print(response.body);
+      var res = jsonDecode(response.body);
+      if (res['status'] == "success") {
+        DataPesan = DataPesanan.fromMap(res['data']);
+        print("sukses");
+        print(DataPesan);
+        Get.to(PaymentPage());
+      } else {
+        print("Gagal");
+      }
+    }
   }
 }

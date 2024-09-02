@@ -7,7 +7,6 @@ import '../../../core/core.dart';
 import '../widgets/order_card.dart';
 import '../widgets/order_delivery_address.dart';
 import '../widgets/order_summary.dart';
-import 'payment_page.dart';
 
 class OrderPage extends StatefulWidget {
   OrderPage({super.key});
@@ -19,22 +18,6 @@ class OrderPage extends StatefulWidget {
 class _OrderPageState extends State<OrderPage> {
   final HomeController homeController = Get.find<HomeController>();
   DataResto? resto = Get.arguments;
-  // void initState() {
-  //   super.initState();
-
-  //   // Menggunakan addPostFrameCallback untuk memanggil calculateDistance
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     homeController.calculateDistance(resto!);
-  //   });
-  // }
-
-  // // update page ketika di akses
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     homeController.calculateDistance(resto!);
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +69,8 @@ class _OrderPageState extends State<OrderPage> {
                     const SpaceHeight(36.0),
                     Button.filled(
                       onPressed: () {
-                        context.push(const PaymentPage());
+                        // context.push(const PaymentPage());
+                        homeController.pesan_sekarang();
                       },
                       label: 'Bayar Sekarang',
                     ),

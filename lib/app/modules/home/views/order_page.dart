@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/app/modules/home/controllers/home_controller.dart';
+import 'package:food_delivery/app/modules/home/views/payment_page.dart';
 import 'package:get/get.dart';
 
 import '../../../DataRespon/respon_restoran.dart';
@@ -69,8 +70,8 @@ class _OrderPageState extends State<OrderPage> {
                     const SpaceHeight(36.0),
                     Button.filled(
                       onPressed: () {
-                        // context.push(const PaymentPage());
-                        homeController.pesan_sekarang();
+                        context.push(PaymentPage());
+                        // homeController.pesan_sekarang();
                       },
                       label: 'Bayar Sekarang',
                     ),

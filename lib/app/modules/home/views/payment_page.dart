@@ -1,39 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/app/DataRespon/respon_get_pyment_metode.dart';
 import 'package:food_delivery/app/modules/home/controllers/home_controller.dart';
+import 'package:food_delivery/app/modules/home/views/order_status_after_payment.dart';
 import 'package:get/get.dart';
 
-import '../../../DataRespon/respon_order.dart';
 import '../../../core/core.dart';
 import '../models/bank_account_model.dart';
 import '../widgets/payment_method.dart';
-import 'order_status_after_payment.dart';
 
 class PaymentPage extends StatelessWidget {
   PaymentPage({super.key});
   HomeController homeController = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
-    DataPesanan? data = homeController.DataPesan;
-    final selectedPayment = ValueNotifier<int>(0);
-    final selectedPaymentBottomSheet = ValueNotifier<int>(0);
+    var data = homeController;
+    EWallet? ewallet = homeController.paymentMethod;
+    final selectedPayment = ValueNotifier<String>("");
+    final selectedPaymentBottomSheet = ValueNotifier<String>('');
     final banks = [
       BankAccountModel(
-        code: 110,
+        code: "${ewallet?.idOvo}",
         name: 'OVO',
         image: Assets.images.payments.ovo.path,
       ),
       BankAccountModel(
-        code: 111,
+        code: "${ewallet?.idDana}",
         name: 'DANA',
         image: Assets.images.payments.dana.path,
       ),
       BankAccountModel(
-        code: 112,
+        code: "${ewallet?.idLinkaja}",
         name: 'LinkAja',
         image: Assets.images.payments.linkAja.path,
       ),
       BankAccountModel(
-        code: 113,
+        code: "${ewallet?.idShopeepay}",
         name: 'Shopee Pay',
         image: Assets.images.payments.shopeePay.path,
       ),
@@ -41,14 +42,15 @@ class PaymentPage extends StatelessWidget {
 
     List<BankAccountModel> banksLimit = [banks[0], banks[1]];
 
-    void seeAllTap() {
+    void seeAllTap() async {
+      await homeController.getPaymentMethod();
       showModalBottomSheet(
         context: context,
         useSafeArea: true,
         isScrollControlled: true,
         backgroundColor: AppColors.white,
         builder: (BuildContext context) {
-          selectedPaymentBottomSheet.value = 0;
+          selectedPaymentBottomSheet.value;
           BankAccountModel? bankSelected;
           return Padding(
             padding:
@@ -83,6 +85,7 @@ class PaymentPage extends StatelessWidget {
                       onTap: () {
                         selectedPaymentBottomSheet.value = banks[index].code;
                         bankSelected = banks[index];
+                        print(selectedPaymentBottomSheet.value.toString());
                       },
                     ),
                     separatorBuilder: (context, index) =>
@@ -99,7 +102,7 @@ class PaymentPage extends StatelessWidget {
                         banksLimit[1] = bankSelected!;
                       }
                     }
-                    selectedPaymentBottomSheet.value = 0;
+                    selectedPaymentBottomSheet.value;
                     context.pop();
                   },
                   label: 'Konfirmasi',
@@ -130,6 +133,7 @@ class PaymentPage extends StatelessWidget {
               const Spacer(),
               InkWell(
                 onTap: seeAllTap,
+                // onTap: () => homeController.getPaymentMethod(),
                 child: const Text(
                   'Lihat semua',
                   style: TextStyle(
@@ -148,10 +152,12 @@ class PaymentPage extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => PaymentMethod(
-                isActive: value == banksLimit[index].code,
-                data: banksLimit[index],
-                onTap: () => selectedPayment.value = banksLimit[index].code,
-              ),
+                  isActive: value == banksLimit[index].code,
+                  data: banksLimit[index],
+                  onTap: () {
+                    selectedPayment.value = banksLimit[index].code;
+                    print("${selectedPayment.value}");
+                  }),
               separatorBuilder: (context, index) => const SpaceHeight(14.0),
               itemCount: banksLimit.length,
             ),
@@ -185,7 +191,7 @@ class PaymentPage extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      data!.totalPrice!.currencyFormatRp,
+                      data.total.value.currencyFormatRp,
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         color: AppColors.gray3,
@@ -205,7 +211,7 @@ class PaymentPage extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      data.shippingCost!.currencyFormatRp,
+                      data.ongkos.value.currencyFormatRp,
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         color: AppColors.gray3,
@@ -229,7 +235,7 @@ class PaymentPage extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      data.totalBill!.currencyFormatRp,
+                      (data.total.value + data.ongkos.value)!.currencyFormatRp,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
                       ),
@@ -248,15 +254,21 @@ class PaymentPage extends StatelessWidget {
           builder: (context, value, _) => Button.filled(
             disabled: value == 0,
             onPressed: () async {
-              context.showDialogSuccess('Pembayaran Berhasil',
-                  'Pesanan kamu akan segera ditinjau dan diproses oleh kami ya, tunggu notifikasi selanjutnya.');
-              // context.showDialogError('Pembayaran Gagal',
-              //     'Ops. Terjadi kesalahan, mohon ulangi sesaat lagi ya, Sob.');
-              await Future.delayed(const Duration(seconds: 2));
-              if (context.mounted) {
-                context.popToRoot();
-                context.push(const OrderStatusAfterPayment());
-              }
+              data.pesan_sekarang(selectedPayment.value).then((value) async {
+                if (value != null) {
+                  context.showDialogSuccess(
+                      'Pembayaran Berhasil', 'Pesanan anda sedang diproses');
+                  await Future.delayed(const Duration(seconds: 2));
+                  if (context.mounted) {
+                    context.popToRoot();
+                    context.push(const OrderStatusAfterPayment());
+                  }
+                } else {
+                  context.showDialogError('Pembayaran Gagal',
+                      'Ops. Terjadi kesalahan, mohon ulangi sesaat lagi ya, Sob.');
+                  await Future.delayed(const Duration(seconds: 2));
+                }
+              });
             },
             label: 'Bayar Sekarang',
           ),

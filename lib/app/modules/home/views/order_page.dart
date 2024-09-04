@@ -19,6 +19,12 @@ class OrderPage extends StatefulWidget {
 class _OrderPageState extends State<OrderPage> {
   final HomeController homeController = Get.find<HomeController>();
   DataResto? resto = Get.arguments;
+  void initState() {
+    super.initState();
+    homeController.getuser();
+    print("proses ini calkulet");
+    homeController.calculateDistance(homeController.datarestoletar);
+  }
 
   @override
   Widget build(BuildContext context) {

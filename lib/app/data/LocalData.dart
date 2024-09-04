@@ -58,11 +58,12 @@ class LocalData {
     if (data == null) {
       return null;
     }
-
-    // Mengurai JSON string menjadi Map<String, dynamic>
     Map<String, dynamic> userMap = jsonDecode(data);
-
-    // Mengonversi Map menjadi UserModel menggunakan fromJson
     return UserModel.fromJson(userMap);
+  }
+
+  Future<void> removeUser() async {
+    final pref = await SharedPreferences.getInstance();
+    await pref.remove("user");
   }
 }

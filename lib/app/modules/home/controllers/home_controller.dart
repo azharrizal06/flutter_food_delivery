@@ -50,6 +50,7 @@ class HomeController extends GetxController {
 
     if (response.statusCode == 200) {
       await LocalData().removeAuthData();
+      await LocalData().removeUser();
       Get.offAllNamed(Routes.LOGIN);
       print(response.body);
     } else {
@@ -204,7 +205,7 @@ class HomeController extends GetxController {
         await LocalData().saveUser(resModel!);
 
         print(resModel?.latlong); // Contoh akses data
-        getuser();
+        await getuser();
         calculateDistance(datarestoletar);
         Get.back();
 
@@ -219,10 +220,13 @@ class HomeController extends GetxController {
     }
   }
 
-  void getuser() {
+  String? kordinat;
+
+  Future<void> getuser() async {
     LocalData().getUser().then((value) {
       if (value != null) {
         addres.value = value.address ?? "belum ada alamat";
+        kordinat = value.latlong!;
       }
     });
   }
@@ -230,12 +234,12 @@ class HomeController extends GetxController {
   @override
   void calculateDistance(DataResto resto) {
     var latlong = resto?.latlong;
-    UserModel? user = resModel;
-    print(latlong);
-    print(user?.latlong);
-    if (latlong != null && user?.latlong != null) {
+    var user = kordinat;
+    print("ini dari init  ${kordinat}");
+    print(user);
+    if (latlong != null && user != null) {
       List<String> partsResto = latlong.split(',');
-      List<String> partsUser = user!.latlong!.split(',');
+      List<String> partsUser = user!.split(',');
 
       double latitudeResto = double.parse(partsResto[0]);
       double longitudeResto = double.parse(partsResto[1]);

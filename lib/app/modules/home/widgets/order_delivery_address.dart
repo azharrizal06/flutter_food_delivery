@@ -16,11 +16,6 @@ class _OrderDeliveryAddressState extends State<OrderDeliveryAddress> {
   HomeController homeController = Get.find<HomeController>();
   // var addres;
   // @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    homeController.getuser();
-  }
 
   @override
   Widget build(BuildContext context) {

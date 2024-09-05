@@ -83,7 +83,7 @@ class LoginView extends GetView<LoginController> {
                         ),
                         const SpaceHeight(33.0),
                         Obx(() {
-                          if (controller.isLoading.value) {
+                          if (controller.isLoading.value == true) {
                             return Align(
                                 alignment: Alignment.center,
                                 child: CircularProgressIndicator());

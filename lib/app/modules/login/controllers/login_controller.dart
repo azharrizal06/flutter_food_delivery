@@ -13,41 +13,48 @@ class LoginController extends GetxController {
 
   //login
   void login(email, Password) async {
-    isLoading.value = true;
-    var headers = {
-      'Accept': 'application/json',
-    };
-    var requires = {
-      "email": email,
-      "password": Password,
-    };
-    var response = await http.post(Uri.parse('$urlApi/api/login'),
-        headers: headers, body: requires);
-    var res = jsonDecode(response.body);
-    print(res['data']['user']['roles']);
+    if (email != "" && Password != "" || email != null && Password != null) {
+      isLoading.value = true;
+      var headers = {
+        'Accept': 'application/json',
+      };
+      var requires = {
+        "email": email,
+        "password": Password,
+      };
+      var response = await http.post(Uri.parse('$urlApi/api/login'),
+          headers: headers, body: requires);
+      var res = jsonDecode(response.body);
+      // print(res['data']['user']['roles']);
 
-    //setatus code 200
-    if (res['status'] == "success") {
-      isLoading.value = false;
+      //setatus code 200
+      if (res['status'] == "success") {
+        isLoading.value = false;
 
-      if (res['data']['user']['roles'] == 'user') {
-        await LocalData().savedata(ResponDataLogin.fromMap(res));
-        print("home user");
-        Get.toNamed(Routes.HOME);
+        if (res['data']['user']['roles'] == 'user') {
+          await LocalData().savedata(ResponDataLogin.fromMap(res));
+          print("home user");
+          Get.toNamed(Routes.HOME);
+        } else {
+          await LocalData().savedata(ResponDataLogin.fromMap(res));
+          print("home resto");
+          Get.toNamed(Routes.RESTO);
+        }
+      } else if (res['status'] == "failed") {
+        isLoading.value = false;
+        Get.showSnackbar(GetSnackBar(
+          duration: Duration(seconds: 2),
+          message: res['message'],
+        ));
       } else {
-        await LocalData().savedata(ResponDataLogin.fromMap(res));
-        print("home resto");
-        Get.toNamed(Routes.RESTO);
+        isLoading.value = false;
+        Get.toNamed(Routes.DAFTAR);
       }
-    } else if (res['status'] == "failed") {
-      isLoading.value = false;
-      Get.showSnackbar(GetSnackBar(
-        duration: Duration(seconds: 2),
-        message: res['message'],
-      ));
-    } else {
-      isLoading.value = false;
-      Get.toNamed(Routes.DAFTAR);
     }
+    isLoading.value = false;
+    Get.showSnackbar(GetSnackBar(
+      duration: Duration(seconds: 2),
+      message: "email dan password tidak boleh kosong",
+    ));
   }
 }

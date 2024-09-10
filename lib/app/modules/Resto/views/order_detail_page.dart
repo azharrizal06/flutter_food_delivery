@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/core.dart';
-import '../models/order_model.dart';
+import '../models/orderItemeresto.dart';
 import '../widgets/order_product_card.dart';
 
 class OrderDetailPage extends StatelessWidget {
-  final List<OrderModel> order;
+  final List<DataOrderItem> order;
   const OrderDetailPage({super.key, required this.order});
 
   @override
@@ -170,29 +170,29 @@ class OrderDetailPage extends StatelessWidget {
           const SpaceHeight(30.0),
         ],
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (order.first.status == 'proses')
-              Button.filled(
-                onPressed: () {},
-                label: 'Proses Sekarang',
-              )
-            else if (order.first.status == 'proses_kirim')
-              Button.filled(
-                onPressed: () {},
-                label: 'Selesaikan Pesanan',
-              )
-            else if (order.first.status == 'selesai')
-              Button.filled(
-                onPressed: () {},
-                label: 'Proses Kirim',
-              )
-          ],
-        ),
-      ),
+      // bottomNavigationBar: Padding(
+      //   padding: const EdgeInsets.all(18.0),
+      //   child: Column(
+      //     mainAxisSize: MainAxisSize.min,
+      //     children: [
+      //       if (order.first.status == 'proses')
+      //         Button.filled(
+      //           onPressed: () {},
+      //           label: 'Proses Sekarang',
+      //         )
+      //       else if (order.first.status == 'proses_kirim')
+      //         Button.filled(
+      //           onPressed: () {},
+      //           label: 'Selesaikan Pesanan',
+      //         )
+      //       else if (order.first.status == 'selesai')
+      //         Button.filled(
+      //           onPressed: () {},
+      //           label: 'Proses Kirim',
+      //         )
+      //     ],
+      //   ),
+      // ),
     );
   }
 }

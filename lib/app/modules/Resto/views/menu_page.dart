@@ -46,10 +46,10 @@ class _MenuPageState extends State<MenuPage> {
         body: Obx(
           () => ListView.separated(
               padding: const EdgeInsets.all(20.0),
-              itemCount: resto_controller.products.length,
+              itemCount: resto_controller.Allproducts.length,
               separatorBuilder: (context, index) => const SpaceHeight(12.0),
               itemBuilder: (context, index) {
-                var data = resto_controller.products[index];
+                var data = resto_controller.Allproducts[index];
 
                 return MenuCard(
                     id: data['id'],

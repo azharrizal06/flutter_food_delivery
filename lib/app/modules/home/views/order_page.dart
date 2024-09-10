@@ -3,7 +3,6 @@ import 'package:food_delivery/app/modules/home/controllers/home_controller.dart'
 import 'package:food_delivery/app/modules/home/views/payment_page.dart';
 import 'package:get/get.dart';
 
-import '../../../DataRespon/respon_restoran.dart';
 import '../../../core/core.dart';
 import '../widgets/order_card.dart';
 import '../widgets/order_delivery_address.dart';
@@ -18,7 +17,7 @@ class OrderPage extends StatefulWidget {
 
 class _OrderPageState extends State<OrderPage> {
   final HomeController homeController = Get.find<HomeController>();
-  DataResto? resto = Get.arguments;
+  // late DataResto? resto = Get.arguments;
   void initState() {
     super.initState();
     homeController.getuser();

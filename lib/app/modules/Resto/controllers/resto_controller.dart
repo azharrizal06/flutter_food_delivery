@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:food_delivery/app/modules/Resto/models/Order_resto.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +11,7 @@ import '../../../DataRespon/Respon_login.dart';
 import '../../../data/LocalData.dart';
 import '../../../help/Api.dart';
 import '../../../routes/app_pages.dart';
+import '../models/orderItemeresto.dart';
 
 class RestoController extends GetxController {
   var DataUser = ResponDataLogin().obs;
@@ -152,7 +154,7 @@ class RestoController extends GetxController {
   }
 
 //getproduk
-  var products = [].obs;
+  var Allproducts = [].obs;
   Future<List> getproduk() async {
     var user = await LocalData().getAuthData();
     var token = user?.data?.token;
@@ -165,9 +167,9 @@ class RestoController extends GetxController {
 
     var data = res['data'] as List<dynamic>;
     print(data);
-    products.value = data;
+    Allproducts.value = data;
 
-    return products;
+    return Allproducts;
   }
 
   //delete produk
@@ -180,7 +182,62 @@ class RestoController extends GetxController {
     });
     if (response.statusCode == 200) {
       var res = jsonDecode(response.body);
+
       print(res);
+    }
+  }
+
+  //get orderby retoran
+  Future<List<OrderRestodata>?> getorderbyrestoran() async {
+    var user = await LocalData().getAuthData();
+    var token = user?.data?.token;
+    var id = user?.data?.user?.id;
+
+    var respon = await http
+        .get(Uri.parse('$urlApi/api/restaurant/$id/orders'), headers: {
+      "Authorization": "Bearer ${token}",
+    });
+
+    if (respon.statusCode == 200) {
+      var res = jsonDecode(respon.body);
+      print("dari resto init");
+      print(id);
+
+      var data = res['data'];
+
+      var Orderretoran = data
+          .map((item) => OrderRestodata.fromMap(item))
+          .toList()
+          .cast<OrderRestodata>();
+      return Orderretoran;
+    } else {
+      print("dari resto init");
+      print(respon.body);
+    }
+    return null;
+  }
+
+  List<DataOrderItem> order = [];
+//get products by order
+  Future getproductsbyorder(int? id) async {
+    var user = await LocalData().getAuthData();
+    var token = user?.data?.token;
+    var respon =
+        await http.get(Uri.parse('$urlApi/api/order/$id/products'), headers: {
+      "Authorization": "Bearer ${token}",
+    });
+
+    if (respon.statusCode == 200) {
+      var res = jsonDecode(respon.body)['data'];
+      order = res
+          .map((item) => DataOrderItem.fromMap(item))
+          .toList()
+          .cast<DataOrderItem>();
+      print("cek produk order");
+      print(res);
+    } else {
+      print("cek produk order");
+      print(respon.body);
     }
   }
 

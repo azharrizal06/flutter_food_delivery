@@ -84,7 +84,7 @@ class HomeView extends GetView<HomeController> {
                 ),
                 BottomNavigationBarItem(
                   icon: Assets.icons.nav.profile.svg(
-                    colorFilter: ColorFilter.mode(
+                    colorFilter: ColorFilter.mode(  
                       _selectedIndex == 3
                           ? AppColors.primary
                           : AppColors.navPlaceholder,

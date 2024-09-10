@@ -22,7 +22,7 @@ class _MainPageRestoState extends State<MainPageResto> {
   final _widgets = [
     HomeRestoPage(),
     MenuPage(),
-    const OrderPage(),
+    OrderPage(),
     ProfileRestoPage(),
   ];
 

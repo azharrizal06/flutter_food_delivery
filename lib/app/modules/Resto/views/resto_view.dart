@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/app/modules/Resto/views/home_page.dart';
 import 'package:food_delivery/app/modules/Resto/views/menu_page.dart';
+import 'package:food_delivery/app/modules/Resto/views/order_page.dart';
 import 'package:food_delivery/app/modules/Resto/views/profile_resto_page.dart';
 import 'package:get/get.dart';
 
 import '../../../core/core.dart';
-import '../../home/views/order_page.dart';
 import '../controllers/resto_controller.dart';
 
 class RestoView extends GetView<RestoController> {
@@ -14,7 +14,8 @@ class RestoView extends GetView<RestoController> {
   final _widgets = [
     HomeRestoPage(),
     MenuPage(),
-    OrderPage(),
+    // OrderPage(),
+    Orderdetail(),
     ProfileRestoPage(),
   ];
   @override

@@ -19,7 +19,7 @@ class HomeController extends GetxController {
   var DataUser = ResponDataLogin().obs;
   var produk = <Restoproduk>[].obs;
   var orders = <Restoproduk>[].obs;
-  late DataResto datarestoletar;
+  DataResto? datarestoletar;
   RxDouble distance = 0.0.obs;
   RxDouble ongkos = 0.0.obs;
   RxString addres = "".obs;
@@ -232,7 +232,7 @@ class HomeController extends GetxController {
   }
 
   @override
-  void calculateDistance(DataResto resto) {
+  void calculateDistance(DataResto? resto) {
     var latlong = resto?.latlong;
     var user = kordinat;
     print("ini dari init  ${kordinat}");
@@ -282,7 +282,7 @@ class HomeController extends GetxController {
       headers: header,
       body: jsonEncode({
         "order_items": orderItems,
-        "restaurant_id": datarestoletar.id,
+        "restaurant_id": datarestoletar?.id,
         "shipping_cost": ongkos.value,
         "payment_method": paymentMethod
       }),

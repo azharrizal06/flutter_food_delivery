@@ -2,11 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/core.dart';
-import '../models/order_model.dart';
+import '../../../help/Api.dart';
+import '../models/orderItemeresto.dart';
 import '../views/order_detail_page.dart';
 
 class OrderCard extends StatelessWidget {
-  final OrderModel item;
+  final DataOrderItem item;
   const OrderCard({super.key, required this.item});
 
   @override
@@ -35,7 +36,7 @@ class OrderCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(16.0),
               child: CachedNetworkImage(
-                imageUrl: item.imageUrl,
+                imageUrl: '${urlApi}/uploads/${item.image}' ?? '',
                 fit: BoxFit.cover,
                 width: 90.0,
                 height: 90.0,
@@ -48,7 +49,7 @@ class OrderCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  item.name,
+                  item.name ?? '',
                   style: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w700,
@@ -58,7 +59,7 @@ class OrderCard extends StatelessWidget {
                 SizedBox(
                   width: context.deviceWidth - 182.0,
                   child: Text(
-                    item.description,
+                    item.description ?? '',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -70,38 +71,39 @@ class OrderCard extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    SizedBox(
-                      width: context.deviceWidth - 270.0,
-                      child: Text(
-                        item.priceFormatted,
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 108.0,
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 8.0),
-                          decoration: BoxDecoration(
-                            color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                          child: Text(
-                            item.status.toTitleCase,
-                            style: const TextStyle(
-                              fontSize: 12.0,
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // SizedBox(
+                    //   width: context.deviceWidth - 270.0,
+                    //   child:
+                    //   Text(
+                    //     item.priceFormatted,
+                    //     style: const TextStyle(
+                    //       fontSize: 16.0,
+                    //       fontWeight: FontWeight.w500,
+                    //     ),
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   width: 108.0,
+                    //   child: Align(
+                    //     alignment: Alignment.centerRight,
+                    //     child: Container(
+                    //       padding: const EdgeInsets.symmetric(
+                    //           horizontal: 16.0, vertical: 8.0),
+                    //       decoration: BoxDecoration(
+                    //         color: AppColors.primary,
+                    //         borderRadius: BorderRadius.circular(16.0),
+                    //       ),
+                    //       child: Text(
+                    //         item.status.toTitleCase,
+                    //         style: const TextStyle(
+                    //           fontSize: 12.0,
+                    //           color: AppColors.white,
+                    //           fontWeight: FontWeight.w500,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ],

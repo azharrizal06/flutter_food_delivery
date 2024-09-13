@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../../../core/core.dart';
 import '../../../help/Api.dart';
 import '../models/orderItemeresto.dart';
-import '../views/order_detail_page.dart';
 
 class OrderCard extends StatelessWidget {
   final DataOrderItem item;
@@ -13,11 +12,11 @@ class OrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.push(OrderDetailPage(
-        order: [item],
-      )),
+      // onTap: () => context.push(OrderDetailPage(
+      //   order: [item],
+      // )),
       child: Container(
-        padding: const EdgeInsets.all(12.0),
+        // padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(24.0),

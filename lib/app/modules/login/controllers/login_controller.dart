@@ -25,7 +25,6 @@ class LoginController extends GetxController {
       var response = await http.post(Uri.parse('$urlApi/api/login'),
           headers: headers, body: requires);
       var res = jsonDecode(response.body);
-      // print(res['data']['user']['roles']);
 
       //setatus code 200
       if (res['status'] == "success") {
@@ -34,11 +33,11 @@ class LoginController extends GetxController {
         if (res['data']['user']['roles'] == 'user') {
           await LocalData().savedata(ResponDataLogin.fromMap(res));
           print("home user");
-          Get.toNamed(Routes.HOME);
+          Get.offNamed(Routes.HOME);
         } else {
           await LocalData().savedata(ResponDataLogin.fromMap(res));
           print("home resto");
-          Get.toNamed(Routes.RESTO);
+          Get.offNamed(Routes.RESTO);
         }
       } else if (res['status'] == "failed") {
         isLoading.value = false;

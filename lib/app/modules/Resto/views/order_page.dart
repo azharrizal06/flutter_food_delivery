@@ -88,12 +88,14 @@ class _OrderdetailState extends State<Orderdetail> {
                                       alignment: Alignment.centerRight,
                                       child: InkWell(
                                         onTap: () async {
-                                          print(orders[index].id);
+                                          // print(orders[index].status);
                                           await resto_controller
                                               .getproductsbyorder(
                                                   orders[index].id);
 
-                                          Get.to(() => OrderPage());
+                                          Get.to(() => OrderPage(
+                                                data: orders[index],
+                                              ));
                                         },
                                         child: Container(
                                           padding: const EdgeInsets.symmetric(
@@ -126,7 +128,8 @@ class _OrderdetailState extends State<Orderdetail> {
 }
 
 class OrderPage extends StatelessWidget {
-  OrderPage({super.key});
+  OrderRestodata? data;
+  OrderPage({super.key, this.data});
   RestoController resto_controller = Get.put(RestoController());
   @override
   Widget build(BuildContext context) {
@@ -152,14 +155,182 @@ class OrderPage extends StatelessWidget {
                 ],
               ),
             )
-          : ListView.separated(
-              padding: const EdgeInsets.all(20.0),
-              itemCount: orders.length,
-              separatorBuilder: (context, index) => const SpaceHeight(18.0),
-              itemBuilder: (context, index) => OrderCard(
-                item: orders[index],
+          : Padding(
+              padding: const EdgeInsets.all(20),
+              child: ListView(
+                children: [
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(20.0),
+                    itemCount: orders.length,
+                    separatorBuilder: (context, index) =>
+                        const SpaceHeight(18.0),
+                    itemBuilder: (context, index) => OrderCard(
+                      item: orders[index],
+                    ),
+                  ),
+                  const SpaceHeight(18.0),
+                  const Divider(),
+                  const SpaceHeight(24.0),
+                  const Text(
+                    'Detail Pesanan',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SpaceHeight(20.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'No Pesanan',
+                        style: TextStyle(
+                          color: AppColors.gray3,
+                        ),
+                      ),
+                      Text(
+                        '${data?.id}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SpaceHeight(20.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Tanggal Pesanan',
+                        style: TextStyle(
+                          color: AppColors.gray3,
+                        ),
+                      ),
+                      Text(
+                        data!.createdAt.toString().split(" ")[0],
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SpaceHeight(20.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Atas Nama',
+                        style: TextStyle(
+                          color: AppColors.gray3,
+                        ),
+                      ),
+                      Text(
+                        'Azhar',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SpaceHeight(40.0),
+                  const Text(
+                    'Rincian Biaya',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SpaceHeight(20.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Harga',
+                        style: TextStyle(
+                          color: AppColors.gray3,
+                        ),
+                      ),
+                      Text(
+                        data!.totalPrice!.currencyFormatRp,
+                        style: const TextStyle(
+                          color: AppColors.gray3,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SpaceHeight(20.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Ongkos Kirim',
+                        style: TextStyle(
+                          color: AppColors.gray3,
+                        ),
+                      ),
+                      Text(
+                        data!.shippingCost!.currencyFormatRp,
+                        style: const TextStyle(
+                          color: AppColors.gray3,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SpaceHeight(20.0),
+                  const DottedDivider(),
+                  const SpaceHeight(20.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Total Pembayaran',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        data!.totalBill!.currencyFormatRp,
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SpaceHeight(30.0),
+                ],
               ),
             ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (data?.status == 'pending')
+              Button.filled(
+                color: AppColors.primary,
+                onPressed: () {},
+                label: 'Pesanan',
+              )
+            else if (data?.status == 'proses_kirim')
+              Button.filled(
+                color: AppColors.primary,
+                onPressed: () {},
+                label: 'Selesaikan Pesanan',
+              )
+            else if (data?.status == 'selesai')
+              Button.filled(
+                color: AppColors.primary,
+                onPressed: () {},
+                label: 'Proses Kirim',
+              )
+          ],
+        ),
+      ),
     );
   }
 }

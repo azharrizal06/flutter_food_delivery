@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:food_delivery/app/modules/Resto/models/Order_resto.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -11,6 +10,7 @@ import '../../../DataRespon/Respon_login.dart';
 import '../../../data/LocalData.dart';
 import '../../../help/Api.dart';
 import '../../../routes/app_pages.dart';
+import '../models/Order_resto.dart';
 import '../models/orderItemeresto.dart';
 
 class RestoController extends GetxController {
@@ -188,33 +188,35 @@ class RestoController extends GetxController {
   }
 
   //get orderby retoran
-  Future<List<OrderRestodata>?> getorderbyrestoran() async {
+  var orderResto = <OrderRestodata>[].obs;
+
+  Future<RxList<OrderRestodata>?> getorderbyrestoran() async {
     var user = await LocalData().getAuthData();
     var token = user?.data?.token;
     var id = user?.data?.user?.id;
-
     var respon = await http
         .get(Uri.parse('$urlApi/api/restaurant/$id/orders'), headers: {
-      "Authorization": "Bearer ${token}",
+      "Authorization": "Bearer $token",
     });
 
     if (respon.statusCode == 200) {
-      var res = jsonDecode(respon.body);
-      print("dari resto init");
-      print(id);
+      var res = jsonDecode(respon.body)['data'];
 
-      var data = res['data'];
+      // Konversi res ke List<OrderRestodata>
+      List<OrderRestodata> tempOrderResto = res
+          .map<OrderRestodata>((item) => OrderRestodata.fromMap(item))
+          .toList();
 
-      var Orderretoran = data
-          .map((item) => OrderRestodata.fromMap(item))
-          .toList()
-          .cast<OrderRestodata>();
-      return Orderretoran;
+      // Menggunakan assignAll untuk menetapkan ke RxList
+      orderResto.assignAll(tempOrderResto);
+
+      print("cek produk order");
+      print(res);
+      return orderResto;
     } else {
-      print("dari resto init");
+      print("cek produk order");
       print(respon.body);
     }
-    return null;
   }
 
   List<DataOrderItem> order = [];
@@ -241,10 +243,35 @@ class RestoController extends GetxController {
     }
   }
 
+  //update status order
+  Future<void> updatestatusorder(int id, String status) async {
+    var user = await LocalData().getAuthData();
+    var token = user?.data?.token;
+    var respon = await http.patch(
+      Uri.parse('http://192.168.11.143:8000/api/order/$id/status'),
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${token}",
+      },
+      body: jsonEncode({"status": status}),
+    );
+
+    if (respon.statusCode == 200) {
+      var res = jsonDecode(respon.body);
+      print("berhasil");
+      getorderbyrestoran();
+      print(res);
+    } else {
+      print(respon.body);
+    }
+  }
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     getproduk();
+    getorderbyrestoran();
   }
 }

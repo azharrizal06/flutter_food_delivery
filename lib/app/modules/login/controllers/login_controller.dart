@@ -47,7 +47,7 @@ class LoginController extends GetxController {
         ));
       } else {
         isLoading.value = false;
-        Get.toNamed(Routes.DAFTAR);
+        Get.offNamed(Routes.DAFTAR);
       }
     }
     isLoading.value = false;
